@@ -14,6 +14,8 @@ namespace PasswordRulesSharp
         public int? MinLength { get; }
         public int? MaxLength { get; }
 
+        public CharacterClass? Required { get; }
+
         public Rule(string rule)
         {
             var dict = new Parser().GetKeyValuePairs(rule);
@@ -43,6 +45,19 @@ namespace PasswordRulesSharp
                 if (MaxLength < MinLength)
                     MinLength = MaxLength;
             }
+
+            // TODO: this isn't correct. we need multiple required rules, and maybe AND-combine them?
+            if (dict.TryGetValue("required", out value) &&
+                CharacterClass.TryParse(value[0], out var required))
+            {
+                Required = required;
+            }
+            else
+            {
+                // TODO: fallback?
+            }
+
+            // TODO: and then for allowed rules, OR-combine them?
         }
 
         public bool PasswordIsValid(string password, out Requirement[] failedRequirements)
