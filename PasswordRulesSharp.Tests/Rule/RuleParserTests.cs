@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 
-namespace PasswordRulesSharp.Tests
+namespace PasswordRulesSharp.Tests.Rule
 {
-    public class RuleTests
+    public class RuleParserTests
     {
         [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];", 20)]
         [TestCase("minlength: 8", 8)]

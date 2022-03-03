@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PasswordRulesSharp
 {
     public class Rule
     {
+        public enum Requirement
+        {
+            MinimumLength,
+            MaximumLength
+        }
+
         public int? MinLength { get; }
         public int? MaxLength { get; }
 
@@ -36,6 +43,21 @@ namespace PasswordRulesSharp
                 if (MaxLength < MinLength)
                     MinLength = MaxLength;
             }
+        }
+
+        public bool PasswordIsValid(string password, out Requirement[] failedRequirements)
+        {
+            var req = new List<Requirement>();
+
+            if (MinLength.HasValue && password.Length < MinLength)
+                req.Add(Requirement.MinimumLength);
+
+            if (MaxLength.HasValue && password.Length > MaxLength)
+                req.Add(Requirement.MaximumLength);
+
+            failedRequirements = req.ToArray();
+
+            return !req.Any();
         }
     }
 }
