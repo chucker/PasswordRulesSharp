@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PasswordRulesSharp
 {
     public class Parser
     {
-        const string RegexPattern = @"(?<Name>[\w-]+):\s*(?<Value>[^;]+);";
+        const string RegexPattern = @"(?<Name>[\w-]+):\s*(?<Value>[^;]+)\s*;?\s*";
 
-        public bool IsValid(string rule)
+        public (bool Success, int Count) IsValid(string rule)
         {
-            var match = System.Text.RegularExpressions.Regex.Match(rule, RegexPattern);
+            var match = Regex.Matches(rule, RegexPattern);
+            
+            if (!match.Any())
+                return (false, 0);
 
-            return true;
+            return (true, match.Count);
         }
     }
 }
