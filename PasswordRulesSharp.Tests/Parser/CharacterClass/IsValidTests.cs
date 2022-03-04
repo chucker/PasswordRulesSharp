@@ -2,7 +2,7 @@
 
 using System.Linq;
 
-namespace PasswordRulesSharp.Tests.CharacterClass
+namespace PasswordRulesSharp.Tests.Parser.CharacterClass
 {
     public class IsValidTests
     {

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace PasswordRulesSharp.Tests.Rule
+namespace PasswordRulesSharp.Tests.Parser.Rule
 {
     public class PasswordIsValidTests
     {
