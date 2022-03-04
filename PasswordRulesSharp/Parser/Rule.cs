@@ -60,7 +60,7 @@ namespace PasswordRulesSharp.Parser
             // TODO: and then for allowed rules, OR-combine them?
         }
 
-        public bool PasswordIsValid(string password, out Requirement[] failedRequirements)
+        public bool PasswordMatchesRule(string password, out Requirement[] failedRequirements)
         {
             var req = new List<Requirement>();
 
