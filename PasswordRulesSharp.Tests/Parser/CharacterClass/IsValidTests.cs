@@ -14,7 +14,7 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
         {
             Assert.True(PasswordRulesSharp.Parser.CharacterClass.TryParse(rawClass, out var parsedClass));
 
-            Assert.AreEqual(count, parsedClass!.Included.Count());
+            Assert.AreEqual(count, parsedClass!.Included.Length);
         }
 
         [TestCase("asdf")]

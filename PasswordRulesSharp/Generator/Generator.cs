@@ -1,5 +1,9 @@
 ﻿using PasswordRulesSharp.Parser;
 
+using System;
+using System.Linq;
+using System.Text;
+
 namespace PasswordRulesSharp.Generator
 {
     public class Generator
@@ -28,11 +32,35 @@ namespace PasswordRulesSharp.Generator
             return length;
         }
 
+        internal char[] ChooseChars()
+        {
+            // if the rule explicitly sets allowed chars, start with those
+            //if (Rule.Allowed) // not implemented
+
+            // otherwise, create our own default set
+            var defaultSet = CharacterClass.Lower.Included
+                             .Union(CharacterClass.Upper.Included)
+                             .Union(CharacterClass.Digit.Included);
+
+            return defaultSet.ToArray();
+        }
+
         public string GeneratePassword()
         {
             var length = ChooseLength();
 
-            return "";
+            var chars = ChooseChars();
+
+            var sb = new StringBuilder();
+            var random = new Random();
+
+            for (int i = 0; i < length; i++)
+            {
+                char randomChar = chars[random.Next(chars.Length)];
+                sb.Append(randomChar);
+            }
+
+            return sb.ToString();
         }
     }
 }

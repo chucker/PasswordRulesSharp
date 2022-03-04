@@ -1,13 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PasswordRulesSharp.Parser
 {
     public class CharacterClass
     {
+        private static readonly Lazy<CharacterClass> _Lower = new(() =>
+        {
+            var included = new List<char>();
+            for (char c = 'a'; c <= 'z'; c++)
+                included.Add(c);
+            return new CharacterClass(included.ToArray());
+        });
+        public static readonly CharacterClass Lower = _Lower.Value;
+
+        private static readonly Lazy<CharacterClass> _Upper = new(() =>
+        {
+            var included = new List<char>();
+            for (char c = 'A'; c <= 'Z'; c++)
+                included.Add(c);
+            return new CharacterClass(included.ToArray());
+        });
+        public static readonly CharacterClass Upper = _Upper.Value;
+
+        private static readonly Lazy<CharacterClass> _Digit = new(() =>
+        {
+            var included = new List<char>();
+            for (char c = '0'; c <= '9'; c++)
+                included.Add(c);
+            return new CharacterClass(included.ToArray());
+        });
+        public static readonly CharacterClass Digit = _Digit.Value;
+
         public char[] Included { get; }
 
-        private CharacterClass(char[] included) {
+        private CharacterClass(char[] included)
+        {
             Included = included;
         }
 
@@ -17,28 +46,19 @@ namespace PasswordRulesSharp.Parser
 
             if (rawClass == "lower")
             {
-                for (char c = 'a'; c <= 'z'; c++)
-                    included.Add(c);
-
-                @class = new CharacterClass(included.ToArray());
-                    return true;
+                @class = Lower;
+                return true;
             }
 
             if (rawClass == "upper")
             {
-                for (char c = 'A'; c <= 'Z'; c++)
-                    included.Add(c);
-
-                @class = new CharacterClass(included.ToArray());
+                @class = Upper;
                 return true;
             }
 
             if (rawClass == "digit")
             {
-                for (char c = '0'; c <= '9'; c++)
-                    included.Add(c);
-
-                @class = new CharacterClass(included.ToArray());
+                @class = Digit;
                 return true;
             }
 
