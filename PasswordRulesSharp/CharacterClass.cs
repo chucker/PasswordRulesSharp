@@ -42,7 +42,7 @@ namespace PasswordRulesSharp
                 return true;
             }
 
-            if (rawClass.StartsWith('[') && rawClass.EndsWith(']'))
+            if (rawClass.StartsWith("[") && rawClass.EndsWith("]"))
             {
                 included.AddRange(rawClass[1..^1]);
 

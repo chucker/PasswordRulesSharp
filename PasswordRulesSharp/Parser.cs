@@ -12,7 +12,8 @@ namespace PasswordRulesSharp
         {
             var matches = Regex.Matches(rule, RegexPattern);
 
-            return matches.GroupBy(k => k.Groups["Name"].Value)
+            return matches.OfType<Match>()
+                          .GroupBy(k => k.Groups["Name"].Value)
                           .ToDictionary(v => v.Key, m => m.Select(x => x.Groups["Value"].Value).ToList());
         }
 
@@ -20,7 +21,7 @@ namespace PasswordRulesSharp
         {
             var matches = Regex.Matches(rule, RegexPattern);
             
-            if (!matches.Any())
+            if (!matches.OfType<Match>().Any())
                 return (false, 0);
 
             return (true, matches.Count);
