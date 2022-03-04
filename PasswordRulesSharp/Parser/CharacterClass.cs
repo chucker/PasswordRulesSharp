@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace PasswordRulesSharp
+namespace PasswordRulesSharp.Parser
 {
     public class CharacterClass
     {

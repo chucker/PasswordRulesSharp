@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace PasswordRulesSharp
+namespace PasswordRulesSharp.Parser
 {
     public class Rule
     {

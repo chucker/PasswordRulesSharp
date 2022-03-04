@@ -8,7 +8,7 @@ namespace PasswordRulesSharp.Tests.Rule
         [TestCase("minlength: 8", 8)]
         public void MinLength(string rule, int minLength)
         {
-            var parsedRule = new PasswordRulesSharp.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
             Assert.AreEqual(minLength, parsedRule.MinLength);
         }
@@ -19,7 +19,7 @@ namespace PasswordRulesSharp.Tests.Rule
         [TestCase("minlength: 8 ; maxlength: 3", 4)]
         public void MaxLength(string rule, int? maxLength)
         {
-            var parsedRule = new PasswordRulesSharp.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
             Assert.AreEqual(maxLength, parsedRule.MaxLength);
         }

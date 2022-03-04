@@ -12,7 +12,7 @@ namespace PasswordRulesSharp.Tests.Rule
                   "12345678")]
         public void IsValid(string rule, string password)
         {
-            var parsedRule = new PasswordRulesSharp.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
             Assert.True(parsedRule.PasswordIsValid(password, out _));
         }
@@ -25,7 +25,7 @@ namespace PasswordRulesSharp.Tests.Rule
                   "1234567890-")]
         public void IsInvalid(string rule, string password)
         {
-            var parsedRule = new PasswordRulesSharp.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
             Assert.False(parsedRule.PasswordIsValid(password, out var failedRequirements));
 

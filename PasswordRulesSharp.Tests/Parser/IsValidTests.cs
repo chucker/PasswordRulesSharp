@@ -10,7 +10,7 @@ namespace PasswordRulesSharp.Tests.Parser
         [TestCase(";minlength: 8", 1)]
         public void IsValid(string rule, int expectedCount)
         {
-            var parser = new PasswordRulesSharp.Parser();
+            var parser = new PasswordRulesSharp.Parser.Parser();
 
             var result = parser.IsValid(rule);
 
@@ -22,7 +22,7 @@ namespace PasswordRulesSharp.Tests.Parser
         [TestCase("minlength8")]
         public void IsInvalid(string rule)
         {
-            var parser = new PasswordRulesSharp.Parser();
+            var parser = new PasswordRulesSharp.Parser.Parser();
 
             var result = parser.IsValid(rule);
 

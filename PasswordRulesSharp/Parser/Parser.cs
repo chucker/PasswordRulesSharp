@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace PasswordRulesSharp
+namespace PasswordRulesSharp.Parser
 {
     public class Parser
     {
