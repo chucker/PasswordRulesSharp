@@ -40,18 +40,19 @@ namespace PasswordRulesSharp.Generator
 
             // if the rule explicitly sets allowed chars, start with those
             //if (Rule.Allowed) // not implemented
+            // TODO: if Rule.Allowed isn't set, default to AsciiPrintable
 
             // otherwise, create our own default set
-            resultSet.Add(CharacterClass.Lower.Included);
-            resultSet.Add(CharacterClass.Upper.Included);
-            resultSet.Add(CharacterClass.Digit.Included);
+            resultSet.Add(CharacterClass.Lower.Chars);
+            resultSet.Add(CharacterClass.Upper.Chars);
+            resultSet.Add(CharacterClass.Digit.Chars);
 
             // if the rule contains required chars, make sure those are in the set
             if (Rule.Required != null)
             {
                 foreach (var item in Rule.Required)
                 {
-                    resultSet.Add(item.Included);
+                    resultSet.Add(item.Chars);
                 }
             }
 

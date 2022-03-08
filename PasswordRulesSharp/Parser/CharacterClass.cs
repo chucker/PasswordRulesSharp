@@ -33,11 +33,20 @@ namespace PasswordRulesSharp.Parser
         });
         public static readonly CharacterClass Digit = _Digit.Value;
 
-        public char[] Included { get; }
-
-        private CharacterClass(char[] included)
+        private static readonly Lazy<CharacterClass> _AsciiPrintable = new(() =>
         {
-            Included = included;
+            var included = new List<char>();
+            for (char c = ' '; c <= '~'; c++)
+                included.Add(c);
+            return new CharacterClass(included.ToArray());
+        });
+        public static readonly CharacterClass AsciiPrintable = _AsciiPrintable.Value;
+
+        public char[] Chars { get; }
+
+        private CharacterClass(char[] chars)
+        {
+            Chars = chars;
         }
 
         public static bool TryParse(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
@@ -59,6 +68,12 @@ namespace PasswordRulesSharp.Parser
             if (rawClass == "digit")
             {
                 @class = Digit;
+                return true;
+            }
+
+            if (rawClass == "ascii-printable")
+            {
+                @class = AsciiPrintable;
                 return true;
             }
 

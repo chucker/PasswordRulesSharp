@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 
-using System.Linq;
-
 namespace PasswordRulesSharp.Tests.Parser.CharacterClass
 {
     public class IsValidTests
@@ -9,12 +7,13 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
         [TestCase("lower", 26)]
         [TestCase("upper", 26)]
         [TestCase("digit", 10)]
+        [TestCase("ascii-printable", 95)]
         [TestCase("[-]", 1)]
         public void IsValid(string rawClass, int count)
         {
             Assert.True(PasswordRulesSharp.Parser.CharacterClass.TryParse(rawClass, out var parsedClass));
 
-            Assert.AreEqual(count, parsedClass!.Included.Length);
+            Assert.AreEqual(count, parsedClass!.Chars.Length);
         }
 
         [TestCase("asdf")]
