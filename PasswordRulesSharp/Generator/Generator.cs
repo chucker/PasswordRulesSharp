@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using Toore.Shuffling;
@@ -38,21 +39,22 @@ namespace PasswordRulesSharp.Generator
         {
             var resultSet = new List<char[]>();
 
-            // if the rule explicitly sets allowed chars, start with those
-            //if (Rule.Allowed) // not implemented
-            // TODO: if Rule.Allowed isn't set, default to AsciiPrintable
+            // if not set, default to ascii-printable
+            var allowedChars = Rule.Allowed?.SelectMany(c=>c.Chars) ??
+                               new List<CharacterClass> { CharacterClass.AsciiPrintable }.SelectMany(c => c.Chars);
 
-            // otherwise, create our own default set
-            resultSet.Add(CharacterClass.Lower.Chars);
-            resultSet.Add(CharacterClass.Upper.Chars);
-            resultSet.Add(CharacterClass.Digit.Chars);
+            // default 
+            foreach (var cClass in new[] { CharacterClass.Lower, CharacterClass.Upper, CharacterClass.Digit })
+            {
+                resultSet.Add(cClass.Chars.Intersect(allowedChars).ToArray());
+            }
 
             // if the rule contains required chars, make sure those are in the set
             if (Rule.Required != null)
             {
                 foreach (var item in Rule.Required)
                 {
-                    resultSet.Add(item.Chars);
+                    resultSet.Add(item.Chars.Intersect(allowedChars).ToArray());
                 }
             }
 

@@ -42,6 +42,19 @@ namespace PasswordRulesSharp.Parser
         /// </summary>
         public List<CharacterClass>? Required { get; }
 
+        /// <summary>
+        /// <para>
+        /// A list of allowed character classes. If not set, defaults to
+        /// <c>ascii-printable</c>.
+        /// </para>
+        /// 
+        /// <para>
+        /// NOTE: Constricting this too narrowly will make passwords easy to
+        /// guess.
+        /// </para>
+        /// </summary>
+        public List<CharacterClass>? Allowed { get; }
+
         public Rule(string rule)
         {
             var dict = new Parser().GetKeyValuePairs(rule);
@@ -72,7 +85,6 @@ namespace PasswordRulesSharp.Parser
                     MinLength = MaxLength;
             }
 
-            // TODO: this isn't correct. we need multiple required rules, and maybe AND-combine them?
             if (dict.TryGetValue("required", out value))
             {
                 Required = new();
@@ -91,6 +103,22 @@ namespace PasswordRulesSharp.Parser
             }
 
             // TODO: and then for allowed rules, OR-combine them?
+            if (dict.TryGetValue("allowed", out value))
+            {
+                Allowed = new();
+
+                foreach (var item in value)
+                {
+                    if (CharacterClass.TryParse(item, out var allowed))
+                    {
+                        Allowed.Add(allowed);
+                    }
+                }
+            }
+            else
+            {
+                // TODO: fallback?
+            }
         }
 
         public bool PasswordMatchesRule(string password, out Requirement[] failedRequirements)
