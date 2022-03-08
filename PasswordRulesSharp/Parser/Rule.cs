@@ -73,10 +73,17 @@ namespace PasswordRulesSharp.Parser
             }
 
             // TODO: this isn't correct. we need multiple required rules, and maybe AND-combine them?
-            if (dict.TryGetValue("required", out value) &&
-                CharacterClass.TryParse(value[0], out var required))
+            if (dict.TryGetValue("required", out value))
             {
-                Required = required;
+                Required = new();
+
+                foreach (var item in value)
+                {
+                    if (CharacterClass.TryParse(item, out var required))
+                    {
+                        Required.Add(required);
+                    }
+                }
             }
             else
             {

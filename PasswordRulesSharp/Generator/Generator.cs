@@ -1,8 +1,10 @@
 ﻿using PasswordRulesSharp.Parser;
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Text;
+
+using Toore.Shuffling;
 
 namespace PasswordRulesSharp.Generator
 {
@@ -32,17 +34,28 @@ namespace PasswordRulesSharp.Generator
             return length;
         }
 
-        internal char[] ChooseChars()
+        internal char[][] ChooseChars()
         {
+            var resultSet = new List<char[]>();
+
             // if the rule explicitly sets allowed chars, start with those
             //if (Rule.Allowed) // not implemented
 
             // otherwise, create our own default set
-            var defaultSet = CharacterClass.Lower.Included
-                             .Union(CharacterClass.Upper.Included)
-                             .Union(CharacterClass.Digit.Included);
+            resultSet.Add(CharacterClass.Lower.Included);
+            resultSet.Add(CharacterClass.Upper.Included);
+            resultSet.Add(CharacterClass.Digit.Included);
 
-            return defaultSet.ToArray();
+            // if the rule contains required chars, make sure those are in the set
+            if (Rule.Required != null)
+            {
+                foreach (var item in Rule.Required)
+                {
+                    resultSet.Add(item.Included);
+                }
+            }
+
+            return resultSet.ToArray();
         }
 
         public string GeneratePassword()
@@ -54,10 +67,25 @@ namespace PasswordRulesSharp.Generator
             var sb = new StringBuilder();
             var random = new Random();
 
-            for (int i = 0; i < length; i++)
+            var shuffler = new FisherYatesShuffler(new RandomWrapper());
+
+            int i = 0;
+            while (i < length)
             {
-                char randomChar = chars[random.Next(chars.Length)];
-                sb.Append(randomChar);
+                // ensure each selection of chars is used, but in a random order
+                chars = chars.Shuffle(shuffler).ToArray();
+
+                foreach (var item in chars)
+                {
+                    // just pick any char within the selection
+                    char randomChar = item[random.Next(item.Length)];
+                    sb.Append(randomChar);
+
+                    i++;
+
+                    if (i == length)
+                        break;
+                }
             }
 
             return sb.ToString();
