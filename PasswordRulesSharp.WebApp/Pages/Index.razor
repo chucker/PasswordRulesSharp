@@ -1,6 +1,80 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>PasswordRulesSharp Web App</PageTitle>
+
+<BSContainer>
+    <h1>PasswordRulesSharp Web App</h1>
+
+    <BSNav IsTabs="true">
+        <BSNavItem IsActive="true">
+            <TabLabel>Explain a rule</TabLabel>
+            <TabContent>
+                <p>Paste a line:</p>
+
+                <BSInput InputType="InputType.TextArea" Value="@RuleLine" @oninput="RuleLineChanged" />
+
+                @if (Rule != null)
+                {
+                    <dl>
+                        @if (Rule.MinLength.HasValue)
+                        {
+                            <dt>Minimum length:</dt>
+                            <dd>@Rule.MinLength.Value</dd>
+                        }
+
+                        @if (Rule.MaxLength.HasValue)
+                        {
+                            <dt>Maximum length:</dt>
+                            <dd>@Rule.MaxLength.Value</dd>
+                        }
+                    </dl>
+                }
+             </TabContent>
+        </BSNavItem>
+
+        <BSNavItem>
+            <TabLabel>Generate a new rule</TabLabel>
+            <TabContent>
+                <BSInput InputType="InputType.Range" @bind-Value="Value"/>
+            </TabContent>
+        </BSNavItem>
+    </BSNav>
+</BSContainer>
+
+
+@*<BSNav IsTabs="true">
+    <BSNavItem IsActive="true">hafha</BSNavItem>
+    <BSNavItem>Link</BSNavItem>
+    <BSNavItem>Link</BSNavItem>
+    <BSNavItem IsDisabled="true">Disabled</BSNavItem>
+</BSNav>
+
+<BSLabel>Example range @Value</BSLabel>*@
+@code {
+    private string RuleLine { get; set; } = "";
+    private PasswordRulesSharp.Parser.Rule? Rule;
+
+    private int Value { get; set; }
+
+    private void RuleLineChanged(ChangeEventArgs e)
+    {
+        if (e.Value is not string rule)
+        {
+            Rule=null;
+            return;
+        }
+
+        var parser = new PasswordRulesSharp.Parser.Parser();
+
+        if (parser.IsValid(rule) is not (true, _))
+        {
+            Rule=null;
+            return;
+        }
+
+        Rule = new Parser.Rule(rule);
+    }
+}
 
 <h1>Hello, world!</h1>
 
