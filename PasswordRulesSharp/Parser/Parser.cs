@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace PasswordRulesSharp.Parser
 {
-    public class Parser
+    public class Tokenizer
     {
         const string RegexPattern = @"(?<Name>[\w-]+):\s*(?<Value>[^;]+)\s*;?\s*";
 

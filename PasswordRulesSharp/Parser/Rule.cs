@@ -44,7 +44,7 @@ namespace PasswordRulesSharp.Parser
 
         public Rule(string rule)
         {
-            var dict = new Parser().GetKeyValuePairs(rule);
+            var dict = new Tokenizer().GetKeyValuePairs(rule);
 
             List<string>? value;
 
