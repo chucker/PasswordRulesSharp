@@ -10,9 +10,9 @@ namespace PasswordRulesSharp.Tests.Parser
         [TestCase(";minlength: 8", 1)]
         public void IsValid(string rule, int expectedCount)
         {
-            var parser = new PasswordRulesSharp.Parser.Tokenizer();
+            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(rule);
 
-            var result = parser.IsValid(rule);
+            var result = tokenizer.IsValid();
 
             Assert.True(result.Success);
             Assert.AreEqual(expectedCount, result.Count);
@@ -22,9 +22,9 @@ namespace PasswordRulesSharp.Tests.Parser
         [TestCase("minlength8")]
         public void IsInvalid(string rule)
         {
-            var parser = new PasswordRulesSharp.Parser.Tokenizer();
+            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(rule);
 
-            var result = parser.IsValid(rule);
+            var result = tokenizer.IsValid();
 
             Assert.False(result.Success);
         }

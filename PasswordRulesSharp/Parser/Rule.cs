@@ -50,9 +50,9 @@ namespace PasswordRulesSharp.Parser
         /// </summary>
         public List<CharacterClass>? Required { get; }
 
-        public Rule(string rule)
+        public Rule(string rawRule)
         {
-            var dict = new Tokenizer().GetKeyValuePairs(rule);
+            var dict = new Tokenizer(rawRule).GetKeyValuePairs();
 
             List<string>? value;
 
