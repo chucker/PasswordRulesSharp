@@ -5,12 +5,6 @@ namespace PasswordRulesSharp.Parser
 {
     public class Rule
     {
-        public enum Requirement
-        {
-            MinimumLength,
-            MaximumLength
-        }
-
         /// <summary>
         /// The minimum length of a valid password, in chars.
         /// </summary>
@@ -91,21 +85,6 @@ namespace PasswordRulesSharp.Parser
             }
 
             // TODO: and then for allowed rules, OR-combine them?
-        }
-
-        public bool PasswordMatchesRule(string password, out Requirement[] failedRequirements)
-        {
-            var req = new List<Requirement>();
-
-            if (MinLength.HasValue && password.Length < MinLength)
-                req.Add(Requirement.MinimumLength);
-
-            if (MaxLength.HasValue && password.Length > MaxLength)
-                req.Add(Requirement.MaximumLength);
-
-            failedRequirements = req.ToArray();
-
-            return !req.Any();
         }
     }
 }
