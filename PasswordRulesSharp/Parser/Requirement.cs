@@ -3,6 +3,7 @@
     public enum Requirement
     {
         MinimumLength,
-        MaximumLength
+        MaximumLength,
+        MaxConsecutive
     }
 }

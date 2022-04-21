@@ -26,8 +26,8 @@ namespace PasswordRulesSharp.Tests.Validator
                   "1234567")]
         [TestCase("minlength: 8; maxlength: 10",
                   "1234567890-")]
-        //[TestCase("minlength: 8; maxlength: 10; max-consecutive: 4",
-        //          "111112222")]
+        [TestCase("minlength: 8; maxlength: 10; max-consecutive: 4",
+                  "111112222")]
         public void DoesNotMatchRule(string rule, string password)
         {
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);

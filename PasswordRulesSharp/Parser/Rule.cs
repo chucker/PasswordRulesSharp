@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace PasswordRulesSharp.Parser
@@ -20,6 +21,19 @@ namespace PasswordRulesSharp.Parser
         /// </para>
         /// </summary>
         public int? MaxLength { get; }
+
+        /// <summary>
+        /// <para>
+        /// Maximum consecutive chars.
+        /// </para>
+        /// 
+        /// <para>
+        /// Defaults to unlimited. Must be positive. If you set it to e.g. 3,
+        /// the password 'aaaa' is not valid.
+        /// </para>
+        /// </summary>
+        [Range(1, int.MaxValue)]
+        public int? MaxConsecutive { get; }
 
         /// <summary>
         /// <para>
@@ -64,6 +78,15 @@ namespace PasswordRulesSharp.Parser
 
                 if (MaxLength < MinLength)
                     MinLength = MaxLength;
+            }
+
+            if (dict.TryGetValue("max-consecutive", out value))
+            {
+                // "If you have multiple max-consecutive properties in your rule, the minimum value of the properties will be applied."
+                var maxConsecutive = value.Where(s => int.TryParse(s, out var intVal))
+                                          .Select(s => int.Parse(s))
+                                          .Min();
+                MaxConsecutive = maxConsecutive;
             }
 
             // TODO: this isn't correct. we need multiple required rules, and maybe AND-combine them?

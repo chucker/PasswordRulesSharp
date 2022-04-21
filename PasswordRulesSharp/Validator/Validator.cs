@@ -24,6 +24,22 @@ namespace PasswordRulesSharp.Validator
             if (Rule.MaxLength.HasValue && password.Length > Rule.MaxLength)
                 req.Add(Requirement.MaximumLength);
 
+            if (Rule.MaxConsecutive.HasValue)
+            {
+                int consecutiveCount = 1;
+
+                for (int i = 0; i < password.Length; i++)
+                {
+                    if (i + 1 < password.Length && password[i] == password[i + 1])
+                        consecutiveCount++;
+                    else
+                        consecutiveCount = 1;
+
+                    if (consecutiveCount > Rule.MaxConsecutive)
+                        req.Add(Requirement.MaxConsecutive);
+                }
+            }
+
             failedRequirements = req.ToArray();
 
             return !req.Any();
