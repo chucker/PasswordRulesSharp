@@ -1,4 +1,5 @@
-﻿using PasswordRulesSharp.Parser;
+﻿using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Parser;
 
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,9 @@ namespace PasswordRulesSharp.Generator
             {
                 foreach (var item in Rule.Required)
                 {
-                    resultSet.Add(item.Chars);
+                    // FIXME: how do we handle unicode here?
+
+                    resultSet.Add(((SpecificCharacterClass)item).Chars);
                 }
             }
 
