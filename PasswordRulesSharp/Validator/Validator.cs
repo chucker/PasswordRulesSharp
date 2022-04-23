@@ -1,10 +1,8 @@
-﻿using PasswordRulesSharp.Parser;
+﻿using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Parser;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PasswordRulesSharp.Validator
 {
@@ -17,6 +15,24 @@ namespace PasswordRulesSharp.Validator
         public bool PasswordIsValid(string password, out Requirement[] failedRequirements)
         {
             var req = new List<Requirement>();
+
+            if (Rule.Required != null)
+            {
+                foreach (var item in Rule.Required)
+                {
+                    switch (item)
+                    {
+                        case SpecificCharacterClass specific:
+                            if (!password.Any(c => specific.Chars.Contains(c)))
+                                req.Add(Requirement.RequiredChars);
+                            break;
+                        case UnicodeCharacterClass unicode:
+                            if (!password.Any())
+                                req.Add(Requirement.RequiredChars);
+                            break;
+                    }
+                }
+            }
 
             if (Rule.MinLength.HasValue && password.Length < Rule.MinLength)
                 req.Add(Requirement.MinimumLength);

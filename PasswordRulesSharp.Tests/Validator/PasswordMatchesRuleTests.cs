@@ -20,8 +20,14 @@ namespace PasswordRulesSharp.Tests.Validator
             Assert.True(validator.PasswordIsValid(password, out _));
         }
 
-        [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];",
-                  "asdfghQWERTY123456-")]
+        [TestCase("required: lower",
+                  "A")]
+        [TestCase("required: upper",
+                  "b")]
+        [TestCase("required: [-]",
+                  "!")]
+        [TestCase("required: lower; required: upper; required: digit; required: [-];",
+                  "12345678901234567890")]
         [TestCase("minlength: 8",
                   "1234567")]
         [TestCase("minlength: 8; maxlength: 10",

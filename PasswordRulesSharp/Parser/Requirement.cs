@@ -4,6 +4,7 @@
     {
         MinimumLength,
         MaximumLength,
-        MaxConsecutive
+        MaxConsecutive,
+        RequiredChars
     }
 }
