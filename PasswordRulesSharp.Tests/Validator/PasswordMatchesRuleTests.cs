@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 
+using System.Linq;
+
 namespace PasswordRulesSharp.Tests.Validator
 {
     public class PasswordMatchesRuleTests
     {
-        [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];", 
+        [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];",
                   "asdfghQWERTY123456--")]
         [TestCase("minlength: 8",
                   "12345678")]
@@ -39,11 +41,11 @@ namespace PasswordRulesSharp.Tests.Validator
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
-            Assert.False(validator.PasswordIsValid(password, out var failedRequirements));
+            Assert.False(validator.PasswordIsValid(password, out var requirements));
 
-            foreach (var item in failedRequirements)
+            foreach (var (Requirement, Success) in requirements.Where(rs => !rs.Success))
             {
-                TestContext.Out.WriteLine(item.ToString());
+                TestContext.Out.WriteLine(Requirement.ToString());
             }
         }
     }

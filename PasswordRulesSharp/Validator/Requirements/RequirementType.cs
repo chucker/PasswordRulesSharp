@@ -1,6 +1,6 @@
-﻿namespace PasswordRulesSharp.Parser
+﻿namespace PasswordRulesSharp.Validator.Requirements
 {
-    public enum Requirement
+    public enum RequirementType
     {
         MinimumLength,
         MaximumLength,

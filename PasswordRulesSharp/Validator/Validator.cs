@@ -1,5 +1,6 @@
 ﻿using PasswordRulesSharp.Models;
 using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Validator.Requirements;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace PasswordRulesSharp.Validator
 
         public Validator(Rule rule) => Rule = rule;
 
-        public bool PasswordIsValid(string password, out Requirement[] failedRequirements)
+        public bool PasswordIsValid(string password, out (Requirement Requirement, bool Success)[] requirementStatuses)
         {
-            var req = new List<Requirement>();
+            var req = new List<(Requirement Requirement, bool Success)>();
 
             if (Rule.Required != null)
             {
@@ -23,25 +24,25 @@ namespace PasswordRulesSharp.Validator
                     switch (item)
                     {
                         case SpecificCharacterClass specific:
-                            if (!password.Any(c => specific.Chars.Contains(c)))
-                                req.Add(Requirement.RequiredChars);
+                            req.Add((new CharacterClassRequirement(item), password.Any(c => specific.Chars.Contains(c))));
                             break;
                         case UnicodeCharacterClass unicode:
-                            if (!password.Any())
-                                req.Add(Requirement.RequiredChars);
+                            // for Unicode, *any* character will do
+                            req.Add((new CharacterClassRequirement(item), password.Any()));
                             break;
                     }
                 }
             }
 
-            if (Rule.MinLength.HasValue && password.Length < Rule.MinLength)
-                req.Add(Requirement.MinimumLength);
+            if (Rule.MinLength.HasValue)
+                req.Add((new MinimumLengthRequirement(Rule.MinLength.Value), password.Length >= Rule.MinLength));
 
-            if (Rule.MaxLength.HasValue && password.Length > Rule.MaxLength)
-                req.Add(Requirement.MaximumLength);
+            if (Rule.MaxLength.HasValue)
+                req.Add((new MaximumLengthRequirement(Rule.MaxLength.Value), password.Length <= Rule.MaxLength));
 
             if (Rule.MaxConsecutive.HasValue)
             {
+                bool success = true;
                 int consecutiveCount = 1;
 
                 for (int i = 0; i < password.Length; i++)
@@ -52,13 +53,15 @@ namespace PasswordRulesSharp.Validator
                         consecutiveCount = 1;
 
                     if (consecutiveCount > Rule.MaxConsecutive)
-                        req.Add(Requirement.MaxConsecutive);
+                        success = false;
                 }
+
+                req.Add((new MaxConsecutiveRequirement(Rule.MaxConsecutive.Value), success));
             }
 
-            failedRequirements = req.ToArray();
+            requirementStatuses = req.ToArray();
 
-            return !req.Any();
+            return req.All(rs => rs.Success);
         }
     }
 }
