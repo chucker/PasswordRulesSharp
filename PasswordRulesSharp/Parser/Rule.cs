@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using PasswordRulesSharp.Models;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace PasswordRulesSharp.Parser
 {
     public class Rule
     {
-        public enum Requirement
-        {
-            MinimumLength,
-            MaximumLength
-        }
-
         /// <summary>
         /// The minimum length of a valid password, in chars.
         /// </summary>
@@ -29,6 +26,19 @@ namespace PasswordRulesSharp.Parser
 
         /// <summary>
         /// <para>
+        /// Maximum consecutive chars.
+        /// </para>
+        /// 
+        /// <para>
+        /// Defaults to unlimited. Must be positive. If you set it to e.g. 3,
+        /// the password 'aaaa' is not valid.
+        /// </para>
+        /// </summary>
+        [Range(1, int.MaxValue)]
+        public int? MaxConsecutive { get; }
+
+        /// <summary>
+        /// <para>
         /// A list of required character classes.
         /// </para>
         /// 
@@ -42,9 +52,9 @@ namespace PasswordRulesSharp.Parser
         /// </summary>
         public List<CharacterClass>? Required { get; }
 
-        public Rule(string rule)
+        public Rule(string rawRule)
         {
-            var dict = new Parser().GetKeyValuePairs(rule);
+            var dict = new Tokenizer(rawRule).GetKeyValuePairs();
 
             List<string>? value;
 
@@ -72,6 +82,15 @@ namespace PasswordRulesSharp.Parser
                     MinLength = MaxLength;
             }
 
+            if (dict.TryGetValue("max-consecutive", out value))
+            {
+                // "If you have multiple max-consecutive properties in your rule, the minimum value of the properties will be applied."
+                var maxConsecutive = value.Where(s => int.TryParse(s, out var intVal))
+                                          .Select(s => int.Parse(s))
+                                          .Min();
+                MaxConsecutive = maxConsecutive;
+            }
+
             // TODO: this isn't correct. we need multiple required rules, and maybe AND-combine them?
             if (dict.TryGetValue("required", out value))
             {
@@ -91,21 +110,6 @@ namespace PasswordRulesSharp.Parser
             }
 
             // TODO: and then for allowed rules, OR-combine them?
-        }
-
-        public bool PasswordMatchesRule(string password, out Requirement[] failedRequirements)
-        {
-            var req = new List<Requirement>();
-
-            if (MinLength.HasValue && password.Length < MinLength)
-                req.Add(Requirement.MinimumLength);
-
-            if (MaxLength.HasValue && password.Length > MaxLength)
-                req.Add(Requirement.MaximumLength);
-
-            failedRequirements = req.ToArray();
-
-            return !req.Any();
         }
     }
 }

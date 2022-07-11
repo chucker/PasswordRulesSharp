@@ -1,4 +1,5 @@
-﻿using PasswordRulesSharp.Parser;
+﻿using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Parser;
 
 using System;
 using System.Collections.Generic;
@@ -40,18 +41,21 @@ namespace PasswordRulesSharp.Generator
 
             // if the rule explicitly sets allowed chars, start with those
             //if (Rule.Allowed) // not implemented
+            // TODO: if Rule.Allowed isn't set, default to AsciiPrintable
 
             // otherwise, create our own default set
-            resultSet.Add(CharacterClass.Lower.Included);
-            resultSet.Add(CharacterClass.Upper.Included);
-            resultSet.Add(CharacterClass.Digit.Included);
+            resultSet.Add(CharacterClass.Lower.Chars);
+            resultSet.Add(CharacterClass.Upper.Chars);
+            resultSet.Add(CharacterClass.Digit.Chars);
 
             // if the rule contains required chars, make sure those are in the set
             if (Rule.Required != null)
             {
                 foreach (var item in Rule.Required)
                 {
-                    resultSet.Add(item.Included);
+                    // FIXME: how do we handle unicode here?
+
+                    resultSet.Add(((SpecificCharacterClass)item).Chars);
                 }
             }
 
@@ -75,10 +79,19 @@ namespace PasswordRulesSharp.Generator
                 // ensure each selection of chars is used, but in a random order
                 chars = chars.Shuffle(shuffler).ToArray();
 
-                foreach (var item in chars)
+                foreach (var currentCharset in chars)
                 {
                     // just pick any char within the selection
-                    char randomChar = item[random.Next(item.Length)];
+                    char randomChar = currentCharset[random.Next(currentCharset.Length)];
+
+                    if (Rule.MaxConsecutive.HasValue)
+                    {
+                        while (HasConsecutiveChar(ref randomChar, ref sb))
+                        {
+                            randomChar = currentCharset[random.Next(currentCharset.Length)];
+                        }
+                    }
+
                     sb.Append(randomChar);
 
                     i++;
@@ -89,6 +102,32 @@ namespace PasswordRulesSharp.Generator
             }
 
             return sb.ToString();
+        }
+
+        private bool HasConsecutiveChar(ref char randomChar, ref StringBuilder sb)
+        {
+            string existingChars = sb.ToString();
+
+            int consecutiveCount = 0;
+
+            for (int i = existingChars.Length; i < Rule.MaxConsecutive; i--)
+            {
+                if (i + 1 > existingChars.Length)
+                    continue;
+
+                if (i < Rule.MaxConsecutive)
+                    break;
+
+                if (existingChars[i + 1] == randomChar)
+                    consecutiveCount++;
+                else
+                    consecutiveCount = 0;
+            }
+
+            if (consecutiveCount > Rule.MaxConsecutive)
+                return true;
+
+            return false;
         }
     }
 }
