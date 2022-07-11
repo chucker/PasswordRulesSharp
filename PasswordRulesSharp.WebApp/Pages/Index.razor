@@ -34,7 +34,15 @@
 
                             @foreach (var cClass in Rule.Required)
                             {
-                                <dd>At least one of: <code>@string.Join(" ", @cClass.Included)</code></dd>
+                                @switch (cClass)
+                                {
+                                    case PasswordRulesSharp.Models.SpecificCharacterClass specific:
+                                        <dd>At least one of: <code>@string.Join(" ", @specific.Chars)</code></dd>
+                                        break;
+                                    case PasswordRulesSharp.Models.UnicodeCharacterClass unicode:
+                                        <dd>Any character</dd>
+                                        break;
+                                }
                             }
                         }
                     </dl>
@@ -65,9 +73,9 @@
             return;
         }
 
-        var parser = new PasswordRulesSharp.Parser.Parser();
+        var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(rule);
 
-        if (parser.IsValid(rule) is not (true, _))
+        if (tokenizer.IsValid() is not (true, _))
         {
             Rule = null;
             return;
