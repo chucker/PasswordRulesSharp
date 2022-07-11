@@ -12,6 +12,8 @@ namespace PasswordRulesSharp.Tests.Validator
                   "12345678")]
         [TestCase("minlength: 8; maxlength: 10",
                   "12345678")]
+        [TestCase("minlength: 8; maxlength: 10; max-consecutive: 2",
+                  "12121212")]
         [TestCase("minlength: 8; maxlength: 10; max-consecutive: 5",
                   "111112222")]
         public void MatchesRule(string rule, string password)
@@ -19,7 +21,12 @@ namespace PasswordRulesSharp.Tests.Validator
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
-            Assert.True(validator.PasswordIsValid(password, out _));
+            Assert.True(validator.PasswordIsValid(password, out var requirements));
+
+            foreach (var (Requirement, Success) in requirements.Where(rs => !rs.Success))
+            {
+                TestContext.Out.WriteLine($"Failed requirement: {Requirement}");
+            }
         }
 
         [TestCase("required: lower",
@@ -34,6 +41,8 @@ namespace PasswordRulesSharp.Tests.Validator
                   "1234567")]
         [TestCase("minlength: 8; maxlength: 10",
                   "1234567890-")]
+        [TestCase("minlength: 8; maxlength: 10; max-consecutive: 1",
+                  "11121212")]
         [TestCase("minlength: 8; maxlength: 10; max-consecutive: 4",
                   "111112222")]
         public void DoesNotMatchRule(string rule, string password)
@@ -45,7 +54,7 @@ namespace PasswordRulesSharp.Tests.Validator
 
             foreach (var (Requirement, Success) in requirements.Where(rs => !rs.Success))
             {
-                TestContext.Out.WriteLine(Requirement.ToString());
+                TestContext.Out.WriteLine($"Failed requirement: {Requirement}");
             }
         }
     }

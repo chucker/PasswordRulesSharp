@@ -23,5 +23,39 @@ namespace PasswordRulesSharp.Tests.Generator
                 Assert.True(actualChars.Any(c => c.Contains(expectedChar)));
             }
         }
+
+        [TestCase("minlength: 20; required: lower; max-consecutive: 1;", 1)]
+        [TestCase("minlength: 20; required: lower; max-consecutive: 2;", 2)]
+        public void ChooseNonConsecutiveChars(string rule, int maxConsecutive)
+        {
+            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+
+            Assert.That(parsedRule.MaxConsecutive, Is.EqualTo(maxConsecutive));
+
+            var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
+
+            var password = generator.GeneratePassword();
+
+            TestContext.WriteLine($"Generated: {password}");
+
+            int consecutiveCount = 0;
+
+            for (int i = 0; i < password.Length; i++)
+            {
+                if (i + 1 < password.Length && password[i] == password[i + 1])
+                    consecutiveCount++;
+                else
+                    consecutiveCount = 0;
+
+                Assert.That(consecutiveCount <= maxConsecutive);
+            }
+
+            //var actualChars = generator.ChooseChars();
+
+            //foreach (var expectedChar in expectedChars)
+            //{
+            //    Assert.True(actualChars.Any(c => c.Contains(expectedChar)));
+            //}
+        }
     }
 }
