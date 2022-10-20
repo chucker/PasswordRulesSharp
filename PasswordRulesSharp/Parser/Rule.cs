@@ -1,8 +1,13 @@
-﻿using PasswordRulesSharp.Models;
+﻿using NodaTime;
 
+using PasswordRulesSharp.Models;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PasswordRulesSharp.Parser
 {
@@ -36,6 +41,12 @@ namespace PasswordRulesSharp.Parser
         /// </summary>
         [Range(1, int.MaxValue)]
         public int? MaxConsecutive { get; }
+
+        /// <summary>
+        /// Password expires after a period of time (e.g., 3 months). This is a
+        /// non-standard extensoin.
+        /// </summary>
+        public Period? ExpiresAfter { get; }
 
         /// <summary>
         /// <para>
@@ -110,6 +121,42 @@ namespace PasswordRulesSharp.Parser
             }
 
             // TODO: and then for allowed rules, OR-combine them?
+
+            if (dict.TryGetValue("x-expires-after", out value) &&
+                value.Count == 1 &&
+                TryParsePeriod(value[0], out var periodVal))
+            {
+                ExpiresAfter = periodVal;
+            }
+        }
+
+        private static bool TryParsePeriod(string s, [NotNullWhen(true)] out Period? periodVal)
+        {
+            periodVal = null;
+
+            //lang=regex
+            const string RegexPattern = @"(?<Amount>\d+)-(?<Unit>(days|weeks|months|years))";
+
+            var match = Regex.Match(s, RegexPattern);
+
+            foreach (var item in new[] { "Amount", "Unit" })
+            {
+                if (!match.Groups[item].Success)
+                    return false;
+            }
+
+            var amount = int.Parse(match.Groups["Amount"].Value);
+
+            periodVal = match.Groups["Unit"].Value switch
+            {
+                "days" => Period.FromDays(amount),
+                "weeks" => Period.FromWeeks(amount),
+                "months" => Period.FromMonths(amount),
+                "years" => Period.FromYears(amount),
+                _ => throw new ArgumentOutOfRangeException(s),
+            };
+
+            return true;
         }
     }
 }
