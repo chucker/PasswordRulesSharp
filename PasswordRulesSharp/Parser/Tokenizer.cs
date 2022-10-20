@@ -6,6 +6,7 @@ namespace PasswordRulesSharp.Parser
 {
     public class Tokenizer
     {
+        //lang=regex
         const string RegexPattern = @"(?<Name>[\w-]+):\s*(?<Value>[^;]+)\s*;?\s*";
 
         public string RawRule { get; }
@@ -27,7 +28,7 @@ namespace PasswordRulesSharp.Parser
         public (bool Success, int Count) IsValid()
         {
             var matches = Regex.Matches(RawRule, RegexPattern);
-            
+
             if (!matches.OfType<Match>().Any())
                 return (false, 0);
 
