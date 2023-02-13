@@ -3,6 +3,7 @@
 using NUnit.Framework;
 
 using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Rules.Parsing;
 
 namespace PasswordRulesSharp.Tests.X_Expiry
 {
@@ -21,7 +22,7 @@ namespace PasswordRulesSharp.Tests.X_Expiry
         [TestCaseSource(nameof(IsValidCases))]
         public void IsValid((string RawRule, bool ExpectedIsValid, Period? ExpectedDuration) input)
         {
-            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(input.RawRule);
+            var tokenizer = new Tokenizer(input.RawRule);
 
             var result = tokenizer.IsValid();
 
