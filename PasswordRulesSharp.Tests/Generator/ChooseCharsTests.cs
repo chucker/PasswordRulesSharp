@@ -20,7 +20,7 @@ namespace PasswordRulesSharp.Tests.Generator
 
             foreach (var expectedChar in expectedChars)
             {
-                Assert.True(actualChars.Any(c => c.Contains(expectedChar)));
+                Assert.That(actualChars.Any(c => c.Contains(expectedChar)), Is.True);
             }
         }
 
@@ -47,7 +47,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 else
                     consecutiveCount = 0;
 
-                Assert.That(consecutiveCount <= maxConsecutive);
+                Assert.That(consecutiveCount, Is.LessThanOrEqualTo(maxConsecutive));
             }
 
             //var actualChars = generator.ChooseChars();
