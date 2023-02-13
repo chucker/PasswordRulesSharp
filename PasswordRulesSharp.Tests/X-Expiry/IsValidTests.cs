@@ -2,7 +2,6 @@
 
 using NUnit.Framework;
 
-using PasswordRulesSharp.Parser;
 using PasswordRulesSharp.Rules;
 using PasswordRulesSharp.Rules.Parsing;
 

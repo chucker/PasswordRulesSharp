@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using NodaTime;
 using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
 
 namespace PasswordRulesSharp.Rules;
 

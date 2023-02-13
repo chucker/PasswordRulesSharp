@@ -1,5 +1,4 @@
 ﻿using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
 using PasswordRulesSharp.Validator.Requirements;
 
 using System.Collections.Generic;
