@@ -6,6 +6,8 @@ namespace PasswordRulesSharp.Parser;
 
 public class Rule : IRule
 {
+    public IRule FromString(string rawRule) => new StringRule(rawRule);
+
     // TODO: convert protected set to init-only
 
     /// <inheritdoc />
