@@ -120,7 +120,8 @@ namespace PasswordRulesSharp.Models
                 return true;
             }
 
-            if (rawClass.StartsWith("[") && rawClass.EndsWith("]"))
+            const StringComparison invariantCulture = StringComparison.InvariantCulture;
+            if (rawClass.StartsWith("[", invariantCulture) && rawClass.EndsWith("]", invariantCulture))
             {
                 var included = rawClass[1..^1];
 
