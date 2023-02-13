@@ -119,7 +119,7 @@ namespace PasswordRulesSharp.Tests.Generator
             bool found = false;
             foreach (var item in chars)
             {
-                if (password.Contains(item))
+                if (password.Contains(item.ToString()))
                 {
                     TestContext.Out.WriteLine($"Password contains {item}");
                     found = true;
