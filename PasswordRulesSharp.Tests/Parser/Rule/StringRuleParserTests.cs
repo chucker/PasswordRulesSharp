@@ -3,7 +3,7 @@ using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Parser.Rule
 {
-    public class RuleParserTests
+    public class StringRuleParserTests
     {
         [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];", 20)]
         [TestCase("minlength: 8", 8)]
@@ -23,6 +23,16 @@ namespace PasswordRulesSharp.Tests.Parser.Rule
             var parsedRule = new StringRule(rule);
 
             Assert.That(parsedRule.MaxLength, Is.EqualTo(maxLength));
+        }
+
+        [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];", 20)]
+        [TestCase("minlength: 10; maxlength: 30; required: lower; required: upper; required: digit; required: [-];", 10)]
+        [TestCase("minlength: 8; maxlength: 7", 7)]
+        public void FromString(string rule, int? minLength)
+        {
+            var parsedRule = PasswordRulesSharp.Rules.Rule.FromString(rule);
+
+            Assert.That(parsedRule.MinLength, Is.EqualTo(minLength));
         }
     }
 }
