@@ -15,24 +15,17 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
         [TestCase("[-]", 1)]
         public void IsValid(string rawClass, int count)
         {
-            Assert.True(Models.CharacterClass.TryParse(rawClass, out var parsedClasses));
+            Assert.True(Models.CharacterClass.TryParse(rawClass, out var parsedClass));
 
-            var sum = 0;
-            foreach (var parsedClass in parsedClasses)
+            switch (parsedClass)
             {
-                switch (parsedClass)
-                {
-                    case SpecificCharacterClass specific:
-                        sum += specific.Chars.Length;
-                        break;
-                    case UnicodeCharacterClass:
-                        sum = -1;
-                        Assert.AreEqual("unicode", rawClass);
-                        break;
-                }
+                case SpecificCharacterClass specific:
+                    Assert.That(specific.Chars.Length, Is.EqualTo(count));
+                    break;
+                case UnicodeCharacterClass:
+                    Assert.That(rawClass, Is.EqualTo("unicode"));
+                    break;
             }
-
-            Assert.AreEqual(count, sum);
         }
 
         [TestCase("asdf")]

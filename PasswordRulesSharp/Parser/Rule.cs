@@ -111,7 +111,7 @@ namespace PasswordRulesSharp.Parser
                 {
                     if (CharacterClass.TryParse(item, out var required))
                     {
-                        Required.AddRange(required);
+                        Required.Add(required);
                     }
                 }
             }
