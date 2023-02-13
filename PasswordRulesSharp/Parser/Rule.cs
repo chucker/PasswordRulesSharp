@@ -4,7 +4,7 @@ using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Parser;
 
-public class BaseRule : IRule
+public class Rule : IRule
 {
     // TODO: convert protected set to init-only
 

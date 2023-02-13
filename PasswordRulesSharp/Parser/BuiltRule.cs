@@ -4,7 +4,7 @@ using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Parser
 {
-    public class BuiltRule : BaseRule
+    public class BuiltRule : Rule
     {
         public BuiltRule(int? minLength, int? maxLength, int? maxConsecutive, Period? expiresAfter, List<CharacterClass>? required)
         {

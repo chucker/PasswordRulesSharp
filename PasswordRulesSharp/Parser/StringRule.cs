@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace PasswordRulesSharp.Parser
 {
-    public class StringRule : BaseRule
+    public class StringRule : Rule
     {
         public StringRule(string rawRule)
         {
