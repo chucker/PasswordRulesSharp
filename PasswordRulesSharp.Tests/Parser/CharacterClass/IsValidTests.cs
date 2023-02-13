@@ -8,23 +8,31 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
     {
         [TestCase("lower", 26)]
         [TestCase("upper", 26)]
+        [TestCase("upper,lower", 52)]
         [TestCase("digit", 10)]
         [TestCase("ascii-printable", 95)]
         [TestCase("unicode", -1)]
         [TestCase("[-]", 1)]
         public void IsValid(string rawClass, int count)
         {
-            Assert.True(Models.CharacterClass.TryParse(rawClass, out var parsedClass));
+            Assert.True(Models.CharacterClass.TryParse(rawClass, out var parsedClasses));
 
-            switch (parsedClass)
+            var sum = 0;
+            foreach (var parsedClass in parsedClasses)
             {
-                case SpecificCharacterClass specific:
-                    Assert.AreEqual(count, specific.Chars.Length);
-                    break;
-                case UnicodeCharacterClass unicode:
-                    Assert.AreEqual("unicode", rawClass);
-                    break;
+                switch (parsedClass)
+                {
+                    case SpecificCharacterClass specific:
+                        sum += specific.Chars.Length;
+                        break;
+                    case UnicodeCharacterClass:
+                        sum = -1;
+                        Assert.AreEqual("unicode", rawClass);
+                        break;
+                }
             }
+
+            Assert.AreEqual(count, sum);
         }
 
         [TestCase("asdf")]

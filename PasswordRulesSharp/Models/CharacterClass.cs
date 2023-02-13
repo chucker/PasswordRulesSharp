@@ -44,50 +44,68 @@ namespace PasswordRulesSharp.Models
         });
         public static readonly SpecificCharacterClass Upper = _Upper.Value;
 
-        public static bool TryParse(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
+        public static bool TryParse(string rawClasses, [NotNullWhen(true)] out CharacterClass[]? classes)
         {
             var included = new List<char>();
+            var rawSplit = rawClasses.Split(',');
 
-            if (rawClass == "lower")
+            if (rawSplit.Length == 0)
             {
-                @class = Lower;
-                return true;
+                classes = null;
+                return false;
             }
 
-            if (rawClass == "upper")
+            var classesList = new List<CharacterClass>();
+            foreach (var rawClass in rawSplit)
             {
-                @class = Upper;
-                return true;
+                if (rawClass == "lower")
+                {
+                    classesList.Add(Lower);
+
+                    continue;
+                }
+
+                if (rawClass == "upper")
+                {
+                    classesList.Add(Upper);
+
+                    continue;
+                }
+
+                if (rawClass == "digit")
+                {
+                    classesList.Add(Digit);
+
+                    continue;
+                }
+
+                if (rawClass == "ascii-printable")
+                {
+                    classesList.Add(AsciiPrintable);
+
+                    continue;
+                }
+
+                if (rawClass == "unicode")
+                {
+                    classesList.Add(Unicode);
+
+                    continue;
+                }
+
+                if (rawClass.StartsWith("[") && rawClass.EndsWith("]"))
+                {
+                    included.AddRange(rawClass[1..^1]);
+
+                    classesList.Add(new SpecificCharacterClass(included.ToArray()));
+
+                    continue;
+                }
             }
 
-            if (rawClass == "digit")
-            {
-                @class = Digit;
-                return true;
-            }
+            classes = classesList.ToArray();
 
-            if (rawClass == "ascii-printable")
-            {
-                @class = AsciiPrintable;
-                return true;
-            }
-
-            if (rawClass == "unicode")
-            {
-                @class = Unicode;
-                return true;
-            }
-
-            if (rawClass.StartsWith("[") && rawClass.EndsWith("]"))
-            {
-                included.AddRange(rawClass[1..^1]);
-
-                @class = new SpecificCharacterClass(included.ToArray());
-                return true;
-            }
-
-            @class = null;
-            return false;
+            return classes.Length > 0;
         }
     }
 }
