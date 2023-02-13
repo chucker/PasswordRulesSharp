@@ -4,7 +4,7 @@ using PasswordRulesSharp.Parser;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using PasswordRulesSharp.Rules;
 using Toore.Shuffling;
 
 namespace PasswordRulesSharp.Generator

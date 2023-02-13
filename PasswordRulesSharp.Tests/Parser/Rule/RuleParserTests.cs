@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Parser.Rule
 {
@@ -8,7 +9,7 @@ namespace PasswordRulesSharp.Tests.Parser.Rule
         [TestCase("minlength: 8", 8)]
         public void MinLength(string rule, int minLength)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
+            var parsedRule = new StringRule(rule);
 
             Assert.That(parsedRule.MinLength, Is.EqualTo(minLength));
         }
@@ -19,7 +20,7 @@ namespace PasswordRulesSharp.Tests.Parser.Rule
         [TestCase("minlength: 8 ; maxlength: 3", 4)]
         public void MaxLength(string rule, int? maxLength)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
+            var parsedRule = new StringRule(rule);
 
             Assert.That(parsedRule.MaxLength, Is.EqualTo(maxLength));
         }

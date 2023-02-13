@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NodaTime;
 using PasswordRulesSharp.Models;
 
-namespace PasswordRulesSharp.Parser
+namespace PasswordRulesSharp.Rules
 {
     public class BuiltRule : Rule
     {

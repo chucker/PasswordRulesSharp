@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using System.Linq;
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Validator
 {
@@ -26,7 +27,7 @@ namespace PasswordRulesSharp.Tests.Validator
             "AAAAAAAA")]
         public void MatchesRule(string rule, string password)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
+            var parsedRule = new StringRule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
             Assert.True(validator.PasswordIsValid(password, out var requirements));
@@ -59,7 +60,7 @@ namespace PasswordRulesSharp.Tests.Validator
             "aaaaaaaa")]
         public void DoesNotMatchRule(string rule, string password)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
+            var parsedRule = new StringRule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
             Assert.False(validator.PasswordIsValid(password, out var requirements));

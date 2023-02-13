@@ -4,7 +4,7 @@ using NodaTime;
 using PasswordRulesSharp.Models;
 using PasswordRulesSharp.Parser;
 
-namespace PasswordRulesSharp.Builder;
+namespace PasswordRulesSharp.Rules;
 
 public class IncompleteRule : IRule
 {

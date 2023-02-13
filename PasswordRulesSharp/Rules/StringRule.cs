@@ -1,4 +1,4 @@
-﻿using NodaTime;
+using NodaTime;
 
 using PasswordRulesSharp.Models;
 using PasswordRulesSharp.Rules.Parsing;
@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
+using PasswordRulesSharp.Parser;
 
-namespace PasswordRulesSharp.Parser
+namespace PasswordRulesSharp.Rules
 {
     public class StringRule : Rule
     {

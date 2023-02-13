@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using NodaTime;
 using PasswordRulesSharp.Models;
 
-namespace PasswordRulesSharp.Parser;
+namespace PasswordRulesSharp.Rules;
 
 public interface IRule
 {

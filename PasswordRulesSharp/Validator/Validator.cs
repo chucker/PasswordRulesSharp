@@ -4,6 +4,7 @@ using PasswordRulesSharp.Validator.Requirements;
 
 using System.Collections.Generic;
 using System.Linq;
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Validator
 {

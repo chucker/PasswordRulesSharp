@@ -3,6 +3,7 @@
 using NUnit.Framework;
 
 using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Rules;
 using PasswordRulesSharp.Rules.Parsing;
 
 namespace PasswordRulesSharp.Tests.X_Expiry
