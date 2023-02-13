@@ -9,9 +9,9 @@ namespace PasswordRulesSharp.Validator
 {
     public class Validator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Validator(Rule rule) => Rule = rule;
+        public Validator(IRule rule) => Rule = rule;
 
         public bool PasswordIsValid(string password, out (Requirement Requirement, bool Success)[] requirementStatuses)
         {

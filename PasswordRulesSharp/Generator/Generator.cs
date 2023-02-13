@@ -11,9 +11,9 @@ namespace PasswordRulesSharp.Generator
 {
     public class Generator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Generator(Rule rule)
+        public Generator(IRule rule)
         {
             Rule = rule;
         }
