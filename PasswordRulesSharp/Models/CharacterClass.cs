@@ -13,7 +13,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
-        public static readonly SpecificCharacterClass AsciiPrintable = _AsciiPrintable.Value;
+        public static SpecificCharacterClass AsciiPrintable => _AsciiPrintable.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Digit = new(() =>
         {
@@ -22,7 +22,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
-        public static readonly SpecificCharacterClass Digit = _Digit.Value;
+        public static SpecificCharacterClass Digit => _Digit.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Lower = new(() =>
         {
@@ -31,7 +31,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
-        public static readonly SpecificCharacterClass Lower = _Lower.Value;
+        public static SpecificCharacterClass Lower => _Lower.Value;
 
         public static readonly UnicodeCharacterClass Unicode = new();
 
@@ -42,7 +42,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
-        public static readonly SpecificCharacterClass Upper = _Upper.Value;
+        public static SpecificCharacterClass Upper => _Upper.Value;
 
         public static bool TryParse(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
         {
