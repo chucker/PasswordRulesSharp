@@ -19,7 +19,7 @@ namespace PasswordRulesSharp.Tests.Generator
 
             var password = generator.GeneratePassword();
 
-            Assert.AreEqual(generator.ChooseLength(), password.Length);
+            Assert.That(password, Has.Length.EqualTo(generator.ChooseLength()));
 
             TestContext.Out.WriteLine($"Generated '{password}'");
         }
@@ -48,7 +48,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("required: upper")]
@@ -75,7 +75,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("required: digit")]
@@ -99,7 +99,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("!")]
@@ -127,7 +127,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
     }
 }

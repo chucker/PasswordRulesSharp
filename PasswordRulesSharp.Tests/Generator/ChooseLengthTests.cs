@@ -17,7 +17,7 @@ namespace PasswordRulesSharp.Tests.Generator
 
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
 
-            Assert.AreEqual(expectedLength, generator.ChooseLength());
+            Assert.That(generator.ChooseLength(), Is.EqualTo(expectedLength));
         }
     }
 }

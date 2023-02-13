@@ -10,7 +10,7 @@ namespace PasswordRulesSharp.Tests.Parser.Rule
         {
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
-            Assert.AreEqual(minLength, parsedRule.MinLength);
+            Assert.That(parsedRule.MinLength, Is.EqualTo(minLength));
         }
 
         [TestCase("minlength: 20; required: lower; required: upper; required: digit; required: [-];", null)]
@@ -21,7 +21,7 @@ namespace PasswordRulesSharp.Tests.Parser.Rule
         {
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
 
-            Assert.AreEqual(maxLength, parsedRule.MaxLength);
+            Assert.That(parsedRule.MaxLength, Is.EqualTo(maxLength));
         }
     }
 }

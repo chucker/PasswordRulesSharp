@@ -14,8 +14,11 @@ namespace PasswordRulesSharp.Tests.Parser
 
             var result = tokenizer.IsValid();
 
-            Assert.True(result.Success);
-            Assert.AreEqual(expectedCount, result.Count);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.True);
+                Assert.That(result.Count, Is.EqualTo(expectedCount));
+            });
         }
 
         [TestCase("asd")]
@@ -26,7 +29,7 @@ namespace PasswordRulesSharp.Tests.Parser
 
             var result = tokenizer.IsValid();
 
-            Assert.False(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }
