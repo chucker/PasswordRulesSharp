@@ -16,6 +16,14 @@ namespace PasswordRulesSharp.Tests.Validator
                   "12121212")]
         [TestCase("minlength: 8; maxlength: 10; max-consecutive: 5",
                   "111112222")]
+        [TestCase("minlength: 8; required: lower,upper; required: digit",
+            "aaaaa333")]
+        [TestCase("minlength: 8; required: upper; required: digit",
+            "BBBBB444")]
+        [TestCase("minlength: 8; required: digit,upper",
+            "12345678")]
+        [TestCase("minlength: 8; required: digit,upper",
+            "AAAAAAAA")]
         public void MatchesRule(string rule, string password)
         {
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
@@ -45,6 +53,10 @@ namespace PasswordRulesSharp.Tests.Validator
                   "11121212")]
         [TestCase("minlength: 8; maxlength: 10; max-consecutive: 4",
                   "111112222")]
+        [TestCase("minlength: 8; required: lower,upper; required: digit",
+            "11111111")]
+        [TestCase("minlength: 8; required: digit,upper",
+            "aaaaaaaa")]
         public void DoesNotMatchRule(string rule, string password)
         {
             var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
