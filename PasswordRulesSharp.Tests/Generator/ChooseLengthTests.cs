@@ -13,7 +13,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: upper", 20)]
         public void ChooseLength(string rule, int expectedLength)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
 
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
 

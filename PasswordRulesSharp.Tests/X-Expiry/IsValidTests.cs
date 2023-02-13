@@ -26,7 +26,7 @@ namespace PasswordRulesSharp.Tests.X_Expiry
 
             var result = tokenizer.IsValid();
 
-            var rule = new Rule(input.RawRule);
+            var rule = new StringRule(input.RawRule);
 
             if (input.ExpectedIsValid)
             {

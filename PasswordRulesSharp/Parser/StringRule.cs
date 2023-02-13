@@ -11,9 +11,9 @@ using System.Text.RegularExpressions;
 
 namespace PasswordRulesSharp.Parser
 {
-    public class Rule : BaseRule
+    public class StringRule : BaseRule
     {
-        public Rule(string rawRule)
+        public StringRule(string rawRule)
         {
             var dict = new Tokenizer(rawRule).GetKeyValuePairs();
 

@@ -1,6 +1,6 @@
 ﻿const string rawRule = "minlength: 8; maxlength: 10; required: lower; required: upper; required: digit; required: [-]";
 
-var rule = new PasswordRulesSharp.Parser.Rule(rawRule);
+var rule = new PasswordRulesSharp.Parser.StringRule(rawRule);
 
 const string samplePassword1 = "Hello2AndSomeMoreText-";
 

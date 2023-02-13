@@ -13,7 +13,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: upper")]
         public void LengthMatchesExpected(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
 
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
 
@@ -27,7 +27,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: lower")]
         public void RequiredLowerContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -54,7 +54,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: upper")]
         public void RequiredUpperContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -81,7 +81,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: digit")]
         public void RequiredDigitContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -109,7 +109,7 @@ namespace PasswordRulesSharp.Tests.Generator
         {
             var rule = $"required: [{chars}]";
 
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new PasswordRulesSharp.Parser.StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
