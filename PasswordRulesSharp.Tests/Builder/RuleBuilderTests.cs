@@ -5,12 +5,12 @@ using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Tests.Builder;
 
-public class BuilderTests
+public class RuleBuilderTests
 {
     [Test]
     public void BuildEmpty()
     {
-        var rule = new PasswordRulesSharp.Builder.Builder().Build();
+        var rule = new PasswordRulesSharp.Builder.RuleBuilder().Build();
 
         Assert.That(rule.Required, Is.Null);
         Assert.That(rule.ExpiresAfter, Is.Null);
@@ -22,7 +22,7 @@ public class BuilderTests
     [Test]
     public void BuildComplex()
     {
-        var rule = new PasswordRulesSharp.Builder.Builder()
+        var rule = new PasswordRulesSharp.Builder.RuleBuilder()
             .MinLength(8)
             .MaxLength(128)
             .MaxConsecutive(5)

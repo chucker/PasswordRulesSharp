@@ -5,39 +5,39 @@ using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Builder;
 
-public class Builder
+public class RuleBuilder
 {
     private readonly IncompleteRule rule = new();
 
-    public Builder MinLength(int? length)
+    public RuleBuilder MinLength(int? length)
     {
         rule.MinLength = length;
 
         return this;
     }
 
-    public Builder MaxLength(int? length)
+    public RuleBuilder MaxLength(int? length)
     {
         rule.MaxLength = length;
 
         return this;
     }
 
-    public Builder MaxConsecutive(int? count)
+    public RuleBuilder MaxConsecutive(int? count)
     {
         rule.MaxConsecutive = count;
 
         return this;
     }
 
-    public Builder ExpiresAfter(Period? period)
+    public RuleBuilder ExpiresAfter(Period? period)
     {
         rule.ExpiresAfter = period;
 
         return this;
     }
 
-    public Builder Require(CharacterClass characterClass)
+    public RuleBuilder Require(CharacterClass characterClass)
     {
         rule.Required ??= new();
 
@@ -47,26 +47,26 @@ public class Builder
         return this;
     }
 
-    public Builder RequireUnicode() => Require(CharacterClass.Unicode);
+    public RuleBuilder RequireUnicode() => Require(CharacterClass.Unicode);
 
-    public Builder RequireAsciiPrintable() => Require(CharacterClass.AsciiPrintable);
+    public RuleBuilder RequireAsciiPrintable() => Require(CharacterClass.AsciiPrintable);
 
-    public Builder RequireDigit() => Require(CharacterClass.Digit);
+    public RuleBuilder RequireDigit() => Require(CharacterClass.Digit);
 
-    public Builder RequireLower() => Require(CharacterClass.Lower);
+    public RuleBuilder RequireLower() => Require(CharacterClass.Lower);
 
-    public Builder RequireUpper() => Require(CharacterClass.Upper);
+    public RuleBuilder RequireUpper() => Require(CharacterClass.Upper);
 
-    public Builder RequireAnyOf(params char[] characters)
+    public RuleBuilder RequireAnyOf(params char[] characters)
     {
         Require(new SpecificCharacterClass(characters));
 
         return this;
     }
 
-    public Builder RequireAnyOf(string characters) => RequireAnyOf(characters.ToCharArray());
+    public RuleBuilder RequireAnyOf(string characters) => RequireAnyOf(characters.ToCharArray());
 
-    public Builder RequireAnyOf(params CharacterClass[] classes)
+    public RuleBuilder RequireAnyOf(params CharacterClass[] classes)
     {
         Require(classes.Aggregate(CharacterClass.Combined));
 
