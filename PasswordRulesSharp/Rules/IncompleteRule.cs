@@ -4,7 +4,7 @@ using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Rules;
 
-public class IncompleteRule : IRule
+internal class IncompleteRule : IRule
 {
     /// <inheritdoc />
     public int? MinLength { get; set; }
