@@ -12,7 +12,8 @@ var rule = new RuleBuilder()
            .RequireLower()
            .RequireUpper()
            .RequireDigit()
-           .RequireAnyOf("-");
+           .RequireAnyOf("-")
+           .Build();
 
 const string samplePassword1 = "Hello2AndSomeMoreText-";
 

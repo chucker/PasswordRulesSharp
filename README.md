@@ -37,7 +37,8 @@ var rule = new RuleBuilder()
            .RequireLower()
            .RequireUpper()
            .RequireDigit()
-           .RequireAnyOf("-");
+           .RequireAnyOf("-")
+           .Build();
 ```
 
 ### Validation
