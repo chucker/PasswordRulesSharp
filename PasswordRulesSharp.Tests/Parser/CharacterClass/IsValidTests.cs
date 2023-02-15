@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using PasswordRulesSharp.Models;
 
@@ -22,6 +22,7 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
                 case SpecificCharacterClass specific:
                     Assert.That(specific.Chars.Length, Is.EqualTo(count));
                     break;
+
                 case UnicodeCharacterClass:
                     Assert.That(rawClass, Is.EqualTo("unicode"));
                     break;

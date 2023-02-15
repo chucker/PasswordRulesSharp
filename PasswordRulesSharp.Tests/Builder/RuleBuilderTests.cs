@@ -1,7 +1,10 @@
-using System.Linq;
 using NodaTime;
+
 using NUnit.Framework;
+
 using PasswordRulesSharp.Models;
+
+using System.Linq;
 
 namespace PasswordRulesSharp.Tests.Builder;
 
@@ -35,7 +38,7 @@ public class RuleBuilderTests
 
         Assert.That(rule.Required, Is.Not.Null);
         Assert.That(rule.Required!, Has.Count.EqualTo(4));
-        Assert.That(rule.Required!.Any(c => c is SpecificCharacterClass specific && specific.Chars.SequenceEqual(new [] { '.', '-', '*', '&', '/', '\\', '@' })));
+        Assert.That(rule.Required!.Any(c => c is SpecificCharacterClass specific && specific.Chars.SequenceEqual(new[] { '.', '-', '*', '&', '/', '\\', '@' })));
         Assert.That(rule.MinLength, Is.EqualTo(8));
         Assert.That(rule.MaxLength, Is.EqualTo(128));
         Assert.That(rule.MaxConsecutive, Is.EqualTo(5));

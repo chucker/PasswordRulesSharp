@@ -1,6 +1,8 @@
-using System.Collections.Generic;
 using NodaTime;
+
 using PasswordRulesSharp.Models;
+
+using System.Collections.Generic;
 
 namespace PasswordRulesSharp.Rules
 {

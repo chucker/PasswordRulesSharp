@@ -1,7 +1,9 @@
-using System.Linq;
 using NodaTime;
+
 using PasswordRulesSharp.Models;
 using PasswordRulesSharp.Rules;
+
+using System.Linq;
 
 namespace PasswordRulesSharp.Builder;
 

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+
 using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Parser.Rule

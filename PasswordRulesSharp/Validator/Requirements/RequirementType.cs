@@ -1,4 +1,4 @@
-﻿namespace PasswordRulesSharp.Validator.Requirements
+namespace PasswordRulesSharp.Validator.Requirements
 {
     public enum RequirementType
     {

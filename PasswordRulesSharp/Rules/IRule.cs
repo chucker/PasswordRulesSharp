@@ -1,7 +1,9 @@
+using NodaTime;
+
+using PasswordRulesSharp.Models;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using NodaTime;
-using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Rules;
 
@@ -16,7 +18,7 @@ public interface IRule
     /// <para>
     /// The maximum length of a valid password, in chars.
     /// </para>
-    /// 
+    ///
     /// <para>
     /// If <see cref="MinLength"/> is also set, must be greater or equal.
     /// </para>
@@ -27,7 +29,7 @@ public interface IRule
     /// <para>
     /// Maximum consecutive chars.
     /// </para>
-    /// 
+    ///
     /// <para>
     /// Defaults to unlimited. Must be positive. If you set it to e.g. 3,
     /// the password 'aaaa' is not valid.
@@ -46,7 +48,7 @@ public interface IRule
     /// <para>
     /// A list of required character classes.
     /// </para>
-    /// 
+    ///
     /// <para>
     /// Each of these is at-least-one-of. For example, <c>required: lower;
     /// required: upper;</c> means at least one lower-case _and_ at least

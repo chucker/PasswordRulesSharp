@@ -1,7 +1,8 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+
+using PasswordRulesSharp.Rules;
 
 using System.Linq;
-using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Validator
 {

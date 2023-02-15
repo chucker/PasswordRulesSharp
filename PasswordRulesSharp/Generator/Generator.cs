@@ -1,9 +1,10 @@
-﻿using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Rules;
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PasswordRulesSharp.Rules;
+
 using Toore.Shuffling;
 
 namespace PasswordRulesSharp.Generator
@@ -20,7 +21,7 @@ namespace PasswordRulesSharp.Generator
         internal int ChooseLength()
         {
             int length;
-            
+
             // default to 20 chars, unless the minimum is higher...
             if (Rule.MinLength.HasValue && Rule.MinLength >= 20)
                 length = Rule.MinLength.Value;
