@@ -1,4 +1,4 @@
-﻿using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Models;
 
 namespace PasswordRulesSharp.Validator.Requirements
 {

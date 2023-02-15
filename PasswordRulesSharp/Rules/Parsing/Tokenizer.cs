@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace PasswordRulesSharp.Parser
+namespace PasswordRulesSharp.Rules.Parsing
 {
-    public class Tokenizer
+    internal class Tokenizer
     {
         //lang=regex
         const string RegexPattern = @"(?<Name>[\w-]+):\s*(?<Value>[^;]+)\s*;?\s*";

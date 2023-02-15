@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using PasswordRulesSharp.Models;
 
@@ -8,6 +8,7 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
     {
         [TestCase("lower", 26)]
         [TestCase("upper", 26)]
+        [TestCase("upper,lower", 52)]
         [TestCase("digit", 10)]
         [TestCase("ascii-printable", 95)]
         [TestCase("unicode", -1)]
@@ -19,10 +20,11 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
             switch (parsedClass)
             {
                 case SpecificCharacterClass specific:
-                    Assert.AreEqual(count, specific.Chars.Length);
+                    Assert.That(specific.Chars.Length, Is.EqualTo(count));
                     break;
-                case UnicodeCharacterClass unicode:
-                    Assert.AreEqual("unicode", rawClass);
+
+                case UnicodeCharacterClass:
+                    Assert.That(rawClass, Is.EqualTo("unicode"));
                     break;
             }
         }

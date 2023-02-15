@@ -1,5 +1,5 @@
-﻿using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Rules;
 
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace PasswordRulesSharp.Generator
 {
     public class Generator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Generator(Rule rule)
+        public Generator(IRule rule)
         {
             Rule = rule;
         }
@@ -21,7 +21,7 @@ namespace PasswordRulesSharp.Generator
         internal int ChooseLength()
         {
             int length;
-            
+
             // default to 20 chars, unless the minimum is higher...
             if (Rule.MinLength.HasValue && Rule.MinLength >= 20)
                 length = Rule.MinLength.Value;

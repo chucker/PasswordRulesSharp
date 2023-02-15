@@ -1,4 +1,7 @@
 ﻿using NUnit.Framework;
+using PasswordRulesSharp.Rules;
+
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Generator
 {
@@ -13,13 +16,13 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: upper")]
         public void LengthMatchesExpected(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
 
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
 
             var password = generator.GeneratePassword();
 
-            Assert.AreEqual(generator.ChooseLength(), password.Length);
+            Assert.That(password, Has.Length.EqualTo(generator.ChooseLength()));
 
             TestContext.Out.WriteLine($"Generated '{password}'");
         }
@@ -27,7 +30,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: lower")]
         public void RequiredLowerContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -48,13 +51,13 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("required: upper")]
         public void RequiredUpperContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -75,13 +78,13 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("required: digit")]
         public void RequiredDigitContainsIt(string rule)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -99,7 +102,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
 
         [TestCase("!")]
@@ -109,7 +112,7 @@ namespace PasswordRulesSharp.Tests.Generator
         {
             var rule = $"required: [{chars}]";
 
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var password = generator.GeneratePassword();
 
@@ -119,7 +122,7 @@ namespace PasswordRulesSharp.Tests.Generator
             bool found = false;
             foreach (var item in chars)
             {
-                if (password.Contains(item))
+                if (password.Contains(item.ToString()))
                 {
                     TestContext.Out.WriteLine($"Password contains {item}");
                     found = true;
@@ -127,7 +130,7 @@ namespace PasswordRulesSharp.Tests.Generator
                 }
             }
 
-            Assert.True(found);
+            Assert.That(found, Is.True);
         }
     }
 }

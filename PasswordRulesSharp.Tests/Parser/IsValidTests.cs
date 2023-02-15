@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 
+using PasswordRulesSharp.Rules.Parsing;
+
 namespace PasswordRulesSharp.Tests.Parser
 {
     public class IsValidTests
@@ -10,23 +12,26 @@ namespace PasswordRulesSharp.Tests.Parser
         [TestCase(";minlength: 8", 1)]
         public void IsValid(string rule, int expectedCount)
         {
-            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(rule);
+            var tokenizer = new Tokenizer(rule);
 
             var result = tokenizer.IsValid();
 
-            Assert.True(result.Success);
-            Assert.AreEqual(expectedCount, result.Count);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.True);
+                Assert.That(result.Count, Is.EqualTo(expectedCount));
+            });
         }
 
         [TestCase("asd")]
         [TestCase("minlength8")]
         public void IsInvalid(string rule)
         {
-            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(rule);
+            var tokenizer = new Tokenizer(rule);
 
             var result = tokenizer.IsValid();
 
-            Assert.False(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

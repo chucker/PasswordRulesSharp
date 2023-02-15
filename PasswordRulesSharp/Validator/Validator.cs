@@ -1,5 +1,5 @@
-﻿using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Models;
+using PasswordRulesSharp.Rules;
 using PasswordRulesSharp.Validator.Requirements;
 
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ namespace PasswordRulesSharp.Validator
 {
     public class Validator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Validator(Rule rule) => Rule = rule;
+        public Validator(IRule rule) => Rule = rule;
 
         public bool PasswordIsValid(string password, out (Requirement Requirement, bool Success)[] requirementStatuses)
         {
@@ -26,6 +26,7 @@ namespace PasswordRulesSharp.Validator
                         case SpecificCharacterClass specific:
                             req.Add((new CharacterClassRequirement(item), password.Any(c => specific.Chars.Contains(c))));
                             break;
+
                         case UnicodeCharacterClass unicode:
                             // for Unicode, *any* character will do
                             req.Add((new CharacterClassRequirement(item), password.Any()));

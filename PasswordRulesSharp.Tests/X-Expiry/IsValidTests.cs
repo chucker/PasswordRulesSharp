@@ -2,13 +2,14 @@
 
 using NUnit.Framework;
 
-using PasswordRulesSharp.Parser;
+using PasswordRulesSharp.Rules;
+using PasswordRulesSharp.Rules.Parsing;
 
 namespace PasswordRulesSharp.Tests.X_Expiry
 {
     public class IsValidTests
     {
-        static (string RawRule, bool ExpectedIsValid, Period? ExpectedDuration)[] IsValidCases =
+        private static (string RawRule, bool ExpectedIsValid, Period? ExpectedDuration)[] IsValidCases =
         {
             ("minlength: 20; x-expires-after: ;", false, null),
             ("minlength: 20; x-expires-after: 4-wee;", false, null),
@@ -21,11 +22,11 @@ namespace PasswordRulesSharp.Tests.X_Expiry
         [TestCaseSource(nameof(IsValidCases))]
         public void IsValid((string RawRule, bool ExpectedIsValid, Period? ExpectedDuration) input)
         {
-            var tokenizer = new PasswordRulesSharp.Parser.Tokenizer(input.RawRule);
+            var tokenizer = new Tokenizer(input.RawRule);
 
             var result = tokenizer.IsValid();
 
-            var rule = new Rule(input.RawRule);
+            var rule = new StringRule(input.RawRule);
 
             if (input.ExpectedIsValid)
             {
