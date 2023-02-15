@@ -14,6 +14,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
+
         public static SpecificCharacterClass AsciiPrintable => _AsciiPrintable.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Digit = new(() =>
@@ -23,6 +24,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
+
         public static SpecificCharacterClass Digit => _Digit.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Lower = new(() =>
@@ -32,6 +34,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
+
         public static SpecificCharacterClass Lower => _Lower.Value;
 
         public static readonly UnicodeCharacterClass Unicode = new();
@@ -43,6 +46,7 @@ namespace PasswordRulesSharp.Models
                 included.Add(c);
             return new SpecificCharacterClass(included.ToArray());
         });
+
         public static SpecificCharacterClass Upper => _Upper.Value;
 
         public static CharacterClass Combined(CharacterClass? left, CharacterClass? right)

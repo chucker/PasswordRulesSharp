@@ -9,7 +9,7 @@ namespace PasswordRulesSharp.Tests.X_Expiry
 {
     public class IsValidTests
     {
-        static (string RawRule, bool ExpectedIsValid, Period? ExpectedDuration)[] IsValidCases =
+        private static (string RawRule, bool ExpectedIsValid, Period? ExpectedDuration)[] IsValidCases =
         {
             ("minlength: 20; x-expires-after: ;", false, null),
             ("minlength: 20; x-expires-after: 4-wee;", false, null),

@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using PasswordRulesSharp.Rules;
 
+using PasswordRulesSharp.Rules;
+
 namespace PasswordRulesSharp.Tests.Generator
 {
     public class ChooseLengthTests
