@@ -1,19 +1,18 @@
 ﻿using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using PasswordRulesSharp.Rules;
 using Toore.Shuffling;
 
 namespace PasswordRulesSharp.Generator
 {
     public class Generator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Generator(Rule rule)
+        public Generator(IRule rule)
         {
             Rule = rule;
         }

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using System.Linq;
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Tests.Generator
 {
@@ -13,7 +14,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("required: upper", new[] { 'a', 'Z', '5' })]
         public void ChooseChars(string rule, char[] expectedChars)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
 
             var generator = new PasswordRulesSharp.Generator.Generator(parsedRule);
             var actualChars = generator.ChooseChars();
@@ -28,7 +29,7 @@ namespace PasswordRulesSharp.Tests.Generator
         [TestCase("minlength: 20; required: lower; max-consecutive: 2;", 2)]
         public void ChooseNonConsecutiveChars(string rule, int maxConsecutive)
         {
-            var parsedRule = new PasswordRulesSharp.Parser.Rule(rule);
+            var parsedRule = new StringRule(rule);
 
             Assert.That(parsedRule.MaxConsecutive, Is.EqualTo(maxConsecutive));
 

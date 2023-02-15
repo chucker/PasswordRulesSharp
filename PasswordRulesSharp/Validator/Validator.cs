@@ -1,17 +1,17 @@
 ﻿using PasswordRulesSharp.Models;
-using PasswordRulesSharp.Parser;
 using PasswordRulesSharp.Validator.Requirements;
 
 using System.Collections.Generic;
 using System.Linq;
+using PasswordRulesSharp.Rules;
 
 namespace PasswordRulesSharp.Validator
 {
     public class Validator
     {
-        public Rule Rule { get; }
+        public IRule Rule { get; }
 
-        public Validator(Rule rule) => Rule = rule;
+        public Validator(IRule rule) => Rule = rule;
 
         public bool PasswordIsValid(string password, out (Requirement Requirement, bool Success)[] requirementStatuses)
         {
