@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 2.0.0
+
+In 1.x, rules could be built from a raw string in Apple's syntax.
+
+In 2.0, you can also build them in C# with the `RuleBuilder`.
+
 ## 1.2.0
 
 Added support for OR-combining multiple character classes. (Thanks @ricardoboss!)
