@@ -3,22 +3,47 @@ A C# implementation of an Apple-compatible Password Rules syntax
 
 ## Usage
 
-First, pick a rule in raw syntax. You can use [Apple's tool](https://developer.apple.com/password-rules/) to help
-create a rule. For example, let's use `minlength: 20; required: lower; required: upper; required: digit; required: [-];`.
-This requires that the password is at least 20 characters wrong, has at least one lower- and uppercase character each,
-has a digit, and has a hyphen (`-`);
+### Building a rule
+
+You an build a rule either from the raw syntax, or with a builder.
+
+#### From raw syntax
+
+You can use
+[Apple's tool](https://developer.apple.com/password-rules/) to help
+create a rule.
+
+For example, let's use
+`minlength: 20; required: lower; required: upper; required: digit; required: [-];`.
+This requires that the password is at least 20 characters wrong, has at least
+one lower- and uppercase character each, has a digit, and has a hyphen (`-`);
+
+To instantiate this as a rule, you use `Rule.FromString()`:
+
+```csharp
+const string rawRule = "minlength: 8; required: lower; required: upper; required: digit; required: [-]";
+
+var rule = Rule.FromString(rawRule);
+```
+
+#### Using the builder
+
+You can create the same rule as above with `RuleBuilder`:
+
+```csharp
+var rule = new RuleBuilder()
+           .MinLength(8)
+           .MaxLength(10)
+           .RequireLower()
+           .RequireUpper()
+           .RequireDigit()
+           .RequireAnyOf("-");
+```
 
 ### Validation
 
-Instantiate this as a rule:
-
-```csharp
-const rawRule = "minlength: 20; required: lower; required: upper; required: digit; required: [-]";
-
-var rule = new PasswordRulesSharp.Parser.Rule(rawRule);
-```
-
-Now, you can take a password and validate whether it matches that rule:
+With either of the two approaches to assigning `rule`, you can now take a
+password and validate whether it matches that rule:
 
 ```csharp
 const string samplePassword1 = "Hello2AndSomeMoreText-";
@@ -28,7 +53,9 @@ var validator = new PasswordRulesSharp.Validator.Validator(rule);
 bool password1IsValid = validator.PasswordIsValid(samplePassword1, out var results1);
 ```
 
-This returns `true`, as the password matches all rules. Let's try with one that doesn't:
+This returns `true`, as the password matches all rules!
+
+Let's try with one that doesn't:
 
 ```csharp
 const string samplePassword2 = "Hello1";
@@ -36,9 +63,12 @@ const string samplePassword2 = "Hello1";
 bool password2IsValid = validator.PasswordIsValid(samplePassword2, out var results2);
 ```
 
-This returns `false`, of course. We can look at `results2` as to why that is: the library found five requirements. Four
-are `CharacterClassRequirement`s, and the fifth is a `MinimumLengthRequirement`. We fulfill three of the character
-class requirements, but we don't have a hyphen, so we fail that one. We also don't meet the minimum length.
+This returns `false`, of course. You can look at `results2` as to why that is:
+the library found five requirements. Four
+are `CharacterClassRequirement`s, and the fifth is a
+`MinimumLengthRequirement`. The sample password fulfills three of the character
+class requirements, but it doesn't have a hyphen, so the validator fails that
+one. Moreover, the password also doesn't meet the minimum length.
 
 You can also discard the detailed results if you prefer:
 

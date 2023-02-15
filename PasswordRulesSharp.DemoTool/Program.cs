@@ -1,8 +1,18 @@
-﻿using PasswordRulesSharp.Rules;
+﻿using PasswordRulesSharp.Builder;
+using PasswordRulesSharp.Rules;
 
 const string rawRule = "minlength: 8; maxlength: 10; required: lower; required: upper; required: digit; required: [-]";
 
-var rule = new StringRule(rawRule);
+//var rule = Rule.FromString(rawRule);
+//var rule = new StringRule(rawRule);
+
+var rule = new RuleBuilder()
+           .MinLength(8)
+           .MaxLength(10)
+           .RequireLower()
+           .RequireUpper()
+           .RequireDigit()
+           .RequireAnyOf("-");
 
 const string samplePassword1 = "Hello2AndSomeMoreText-";
 
