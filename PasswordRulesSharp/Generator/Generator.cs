@@ -1,8 +1,9 @@
+using PasswordRulesSharp.Extensions;
 using PasswordRulesSharp.Models;
 using PasswordRulesSharp.Rules;
 
-using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 using Toore.Shuffling;
@@ -69,8 +70,8 @@ namespace PasswordRulesSharp.Generator
             var chars = ChooseChars();
 
             var sb = new StringBuilder();
-            var random = new Random();
 
+            var rng = RandomNumberGenerator.Create();
             var shuffler = new FisherYatesShuffler(new RandomWrapper());
 
             int i = 0;
@@ -81,14 +82,20 @@ namespace PasswordRulesSharp.Generator
 
                 foreach (var currentCharset in chars)
                 {
+                    int randomIndex;
+
+                    randomIndex = rng.GetInt32(max: currentCharset.Length);
+
                     // just pick any char within the selection
-                    char randomChar = currentCharset[random.Next(currentCharset.Length)];
+                    char randomChar = currentCharset[randomIndex];
 
                     if (Rule.MaxConsecutive.HasValue)
                     {
                         while (HasConsecutiveChar(ref randomChar, ref sb))
                         {
-                            randomChar = currentCharset[random.Next(currentCharset.Length)];
+                            randomIndex = rng.GetInt32(max: currentCharset.Length);
+
+                            randomChar = currentCharset[randomIndex];
                         }
                     }
 
