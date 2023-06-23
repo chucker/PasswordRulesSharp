@@ -71,7 +71,10 @@ are `CharacterClassRequirement`s, and the fifth is a
 class requirements, but it doesn't have a hyphen, so the validator fails that
 one. Moreover, the password also doesn't meet the minimum length.
 
-You can also discard the detailed results if you prefer:
+This collection of detailed validation failure results is useful if you want to
+interactively tell the user why their proposed password cannot be used. But if
+you want prefer something simpler, you can also discard them, and simply look
+at the boolean result:
 
 ```csharp
 bool password2IsValid = validator.PasswordIsValid(samplePassword2, out _);
