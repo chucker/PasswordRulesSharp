@@ -2,9 +2,8 @@
 
 ## 2.0.0
 
-In 1.x, rules could be built from a raw string in Apple's syntax.
-
-In 2.0, you can also build them in C# with the `RuleBuilder`.
+* In 1.x, rules could be built from a raw string in Apple's syntax. In 2.0, you can also build them in C# with the `RuleBuilder`.
+* The generator has been improved: previously, randomness wasn't crytographic.
 
 ## 1.2.0
 
