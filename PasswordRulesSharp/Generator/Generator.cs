@@ -82,7 +82,9 @@ namespace PasswordRulesSharp.Generator
 
                 foreach (var currentCharset in chars)
                 {
-                    var randomIndex = rng.GetInt32(max: currentCharset.Length);
+                    int randomIndex;
+
+                    randomIndex = rng.GetInt32(max: currentCharset.Length);
 
                     // just pick any char within the selection
                     char randomChar = currentCharset[randomIndex];
@@ -91,6 +93,8 @@ namespace PasswordRulesSharp.Generator
                     {
                         while (HasConsecutiveChar(ref randomChar, ref sb))
                         {
+                            randomIndex = rng.GetInt32(max: currentCharset.Length);
+
                             randomChar = currentCharset[randomIndex];
                         }
                     }
