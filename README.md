@@ -3,6 +3,8 @@ A C# implementation of an Apple-compatible Password Rules syntax
 
 ## Usage
 
+You probably want to install it from NuGet: https://www.nuget.org/packages/PasswordRulesSharp/2.0.0.
+
 ### Building a rule
 
 You an build a rule either from the raw syntax, or with a builder.
