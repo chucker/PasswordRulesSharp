@@ -18,12 +18,12 @@ create a rule.
 For example, let's use
 `minlength: 20; required: lower; required: upper; required: digit; required: [-];`.
 This requires that the password is at least 20 characters wrong, has at least
-one lower- and uppercase character each, has a digit, and has a hyphen (`-`);
+one lower- and uppercase character each, has a digit, and has a hyphen (`-`).
 
 To instantiate this as a rule, you use `Rule.FromString()`:
 
 ```csharp
-const string rawRule = "minlength: 8; required: lower; required: upper; required: digit; required: [-]";
+const string rawRule = "minlength: 20; required: lower; required: upper; required: digit; required: [-]";
 
 var rule = Rule.FromString(rawRule);
 ```
@@ -34,8 +34,7 @@ You can create the same rule as above with `RuleBuilder`:
 
 ```csharp
 var rule = new RuleBuilder()
-           .MinLength(8)
-           .MaxLength(10)
+           .MinLength(20)
            .RequireLower()
            .RequireUpper()
            .RequireDigit()
