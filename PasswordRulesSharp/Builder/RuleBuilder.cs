@@ -29,7 +29,7 @@ public class RuleBuilder
 
     /// <summary>
     /// Appends a <see cref="Rule.MaxLength"/> requirement to the rule you're
-    /// building: at most how many characters long does the character habe to
+    /// building: at most how many characters long does the character have to
     /// be?
     /// </summary>
     public RuleBuilder MaxLength(int? length)
@@ -51,7 +51,7 @@ public class RuleBuilder
     }
 
     /// <summary>
-    /// Appends a <see cref="Rule.ExpiresAfter"/> requirement to the rule 
+    /// Appends a <see cref="Rule.ExpiresAfter"/> requirement to the rule
     /// you're building: how soon after creation will a password expire?
     /// </summary>
     public RuleBuilder ExpiresAfter(Period? period)
