@@ -95,8 +95,22 @@ namespace PasswordRulesSharp.Models
         }
 
         /// <summary>
+        /// <para>
         /// Given a rule written in string form, tries to parse a token as one
-        /// or more <see cref="CharacterClass"/>.
+        /// or more <see cref="CharacterClass"/>es, separated by a comma (,).
+        /// </para>
+        ///
+        /// <para>
+        /// Each class is expressed either with the keywords <c>lower</c>,
+        /// <c>upper</c>, <c>digit</c>, <c>ascii-printable</c>, or
+        /// <c>unicode</c>, with by a set of individual characters surrounded
+        /// by square brackets ([]), e.g. <c>[abc]</c> for those three specific
+        /// characters.</para>
+        ///
+        /// <para>
+        /// See also:
+        /// <seealso cref="https://developer.apple.com/documentation/security/password_autofill/customizing_password_autofill_rules"/>
+        /// </para>
         /// </summary>
         public static bool TryParse(string rawClasses, [NotNullWhen(true)] out CharacterClass? classes)
         {
@@ -122,11 +136,7 @@ namespace PasswordRulesSharp.Models
             return classes != null;
         }
 
-        /// <summary>
-        /// Given a rule written in string form, tries to parse a token as
-        /// exactly one <see cref="CharacterClass"/>.
-        /// </summary>
-        public static bool TryParseSingle(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
+        private static bool TryParseSingle(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
         {
             if (rawClass == "lower")
             {
