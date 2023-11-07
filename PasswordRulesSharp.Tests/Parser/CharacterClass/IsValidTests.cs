@@ -15,12 +15,12 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
         [TestCase("[-]", 1)]
         public void IsValid(string rawClass, int count)
         {
-            Assert.True(Models.CharacterClass.TryParse(rawClass, out var parsedClass));
+            Assert.That(Models.CharacterClass.TryParse(rawClass, out var parsedClass), Is.True);
 
             switch (parsedClass)
             {
                 case SpecificCharacterClass specific:
-                    Assert.That(specific.Chars.Length, Is.EqualTo(count));
+                    Assert.That(specific.Chars, Has.Length.EqualTo(count));
                     break;
 
                 case UnicodeCharacterClass:
@@ -34,7 +34,7 @@ namespace PasswordRulesSharp.Tests.Parser.CharacterClass
         [TestCase("baz: boop")]
         public void IsInvalid(string rawClass)
         {
-            Assert.False(Models.CharacterClass.TryParse(rawClass, out _));
+            Assert.That(Models.CharacterClass.TryParse(rawClass, out _), Is.False);
         }
     }
 }

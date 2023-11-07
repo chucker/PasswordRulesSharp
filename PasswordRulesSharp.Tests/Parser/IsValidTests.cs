@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using PasswordRulesSharp.Rules.Parsing;
 
@@ -18,8 +18,8 @@ namespace PasswordRulesSharp.Tests.Parser
 
             Assert.Multiple(() =>
             {
-                Assert.That(result.Success, Is.True);
-                Assert.That(result.Count, Is.EqualTo(expectedCount));
+                Assert.That(success, Is.True);
+                Assert.That(count, Is.EqualTo(expectedCount));
             });
         }
 

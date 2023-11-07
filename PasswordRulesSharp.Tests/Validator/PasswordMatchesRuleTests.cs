@@ -31,7 +31,7 @@ namespace PasswordRulesSharp.Tests.Validator
             var parsedRule = new StringRule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
-            Assert.True(validator.PasswordIsValid(password, out var requirements));
+            Assert.That(validator.PasswordIsValid(password, out var requirements), Is.True);
 
             foreach (var (Requirement, Success) in requirements.Where(rs => !rs.Success))
             {
@@ -64,7 +64,7 @@ namespace PasswordRulesSharp.Tests.Validator
             var parsedRule = new StringRule(rule);
             var validator = new PasswordRulesSharp.Validator.Validator(parsedRule);
 
-            Assert.False(validator.PasswordIsValid(password, out var requirements));
+            Assert.That(validator.PasswordIsValid(password, out var requirements), Is.False);
 
             foreach (var (Requirement, Success) in requirements.Where(rs => !rs.Success))
             {
