@@ -1,10 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace PasswordRulesSharp.Models
 {
+    /// <summary>
+    /// A character class is a set of characters (for example: all letters, all
+    /// digits, or an explicit set of specific characters) from which a
+    /// requirement can be created.
+    /// </summary>
     public abstract class CharacterClass
     {
         private static readonly Lazy<SpecificCharacterClass> _AsciiPrintable = new(() =>
@@ -15,6 +20,12 @@ namespace PasswordRulesSharp.Models
             return new SpecificCharacterClass(included.ToArray());
         });
 
+        /// <summary>
+        /// A built-in <see cref="CharacterClass"/> that contains any
+        /// "printable ASCII" character, meaning all letters, digits, and
+        /// special characters in ASCII, but not "non-printable" characters
+        /// such as a line break.
+        /// </summary>
         public static SpecificCharacterClass AsciiPrintable => _AsciiPrintable.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Digit = new(() =>
@@ -25,6 +36,10 @@ namespace PasswordRulesSharp.Models
             return new SpecificCharacterClass(included.ToArray());
         });
 
+        /// <summary>
+        /// A <see cref="CharacterClass"/> that contains any decimal digit from
+        /// <c>0</c> to (and including) <c>9</c>.
+        /// </summary>
         public static SpecificCharacterClass Digit => _Digit.Value;
 
         private static readonly Lazy<SpecificCharacterClass> _Lower = new(() =>
@@ -35,8 +50,16 @@ namespace PasswordRulesSharp.Models
             return new SpecificCharacterClass(included.ToArray());
         });
 
+        /// <summary>
+        /// A <see cref="CharacterClass"/> that contains lower-case Latin
+        /// letters <c>a</c> through <c>z</c>.
+        /// </summary>
         public static SpecificCharacterClass Lower => _Lower.Value;
 
+        /// <summary>
+        /// A <see cref="CharacterClass"/> that contains any Unicode character.
+        /// (Strictly speaking, any Unicode grapheme cluster.)
+        /// </summary>
         public static readonly UnicodeCharacterClass Unicode = new();
 
         private static readonly Lazy<SpecificCharacterClass> _Upper = new(() =>
@@ -47,8 +70,16 @@ namespace PasswordRulesSharp.Models
             return new SpecificCharacterClass(included.ToArray());
         });
 
+        /// <summary>
+        /// A <see cref="CharacterClass"/> that contains upper-case Latin
+        /// letters <c>A</c> through <c>Z</c>.
+        /// </summary>
         public static SpecificCharacterClass Upper => _Upper.Value;
 
+        /// <summary>
+        /// A <see cref="CharacterClass"/> that combines two existing character
+        /// classes as a union, meaning any character in either class is valid.
+        /// </summary>
         public static CharacterClass Combined(CharacterClass? left, CharacterClass? right)
         {
             if (left is null) throw new ArgumentNullException(nameof(left));
@@ -63,6 +94,10 @@ namespace PasswordRulesSharp.Models
             throw new ArgumentException("Cannot combine non-specific left and right character classes");
         }
 
+        /// <summary>
+        /// Given a rule written in string form, tries to parse a token as one
+        /// or more <see cref="CharacterClass"/>.
+        /// </summary>
         public static bool TryParse(string rawClasses, [NotNullWhen(true)] out CharacterClass? classes)
         {
             var rawSplit = rawClasses.Split(',');
@@ -87,6 +122,10 @@ namespace PasswordRulesSharp.Models
             return classes != null;
         }
 
+        /// <summary>
+        /// Given a rule written in string form, tries to parse a token as
+        /// exactly one <see cref="CharacterClass"/>.
+        /// </summary>
         public static bool TryParseSingle(string rawClass, [NotNullWhen(true)] out CharacterClass? @class)
         {
             if (rawClass == "lower")

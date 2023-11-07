@@ -7,6 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PasswordRulesSharp.Rules;
 
+/// <summary>
+/// A rule is a set of requirements a password is expected to conform to, such
+/// as its length or existence of character classes.
+/// </summary>
 public interface IRule
 {
     /// <summary>

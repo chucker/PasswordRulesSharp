@@ -10,10 +10,20 @@ using Toore.Shuffling;
 
 namespace PasswordRulesSharp.Generator
 {
+    /// <summary>
+    /// A service that produces passwords (with some randomness) that will
+    /// conform to a rule.
+    /// </summary>
     public class Generator
     {
+        /// <summary>
+        /// The rule the generated passwords will conform to.
+        /// </summary>
         public IRule Rule { get; }
 
+        /// <summary>
+        /// Creates a <see cref="Generator"/> for a given rule.
+        /// </summary>
         public Generator(IRule rule)
         {
             Rule = rule;
@@ -63,6 +73,11 @@ namespace PasswordRulesSharp.Generator
             return resultSet.ToArray();
         }
 
+        /// <summary>
+        /// Generates a password that will conform to this generator's rule.
+        /// You can call this multiple times to get a series of random,
+        /// different passwords.
+        /// </summary>
         public string GeneratePassword()
         {
             var length = ChooseLength();
