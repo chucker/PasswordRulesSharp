@@ -7,12 +7,28 @@ using System.Linq;
 
 namespace PasswordRulesSharp.Validator
 {
+    /// <summary>
+    /// A service that matches a rule against a provided password, and tells
+    /// you whether the requirements are met.
+    /// </summary>
     public class Validator
     {
+        /// <summary>
+        /// The rule to match against.
+        /// </summary>
         public IRule Rule { get; }
 
+        /// <summary>
+        /// Creates a validator based on a given rule.
+        /// </summary>
         public Validator(IRule rule) => Rule = rule;
 
+        /// <summary>
+        /// Ascertains whether <paramref name="password"/> is "valid", meaning
+        /// it meets all requirements in the rule. If not,
+        /// <paramref name="requirementStatuses"/> contains detailed
+        /// information on which requirements have failed.
+        /// </summary>
         public bool PasswordIsValid(string password, out (Requirement Requirement, bool Success)[] requirementStatuses)
         {
             var req = new List<(Requirement Requirement, bool Success)>();
