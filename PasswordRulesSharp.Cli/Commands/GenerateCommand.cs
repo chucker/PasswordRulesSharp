@@ -25,8 +25,10 @@ public class GenerateCommand : Command<GenerateCommand.Settings>
         var rule = Rule.FromString(settings.Rule);
         var generator = new Generator.Generator(rule);
 
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[underline]Generated passwords:[/]");
         for (int i = 0; i < settings.Count; i++)
-            Console.WriteLine(generator.GeneratePassword());
+            AnsiConsole.MarkupLine($"  {generator.GeneratePassword()}".EscapeMarkup());
 
         return 0;
     }
