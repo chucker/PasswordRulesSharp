@@ -33,6 +33,9 @@ public class GenerateCommand : Command<GenerateCommand.Settings>
 
     public override ValidationResult Validate(CommandContext context, Settings settings)
     {
+        if (settings.Count <= 0)
+            return ValidationResult.Error("Please provide a count ≥ 0");
+
         if (string.IsNullOrWhiteSpace(settings.Rule))
             return ValidationResult.Error("Please provide a valid rule, e.g. `--rule=\"minlength: 20; required: lower; required: upper; required: digit; required: [-];\"`.");
 
