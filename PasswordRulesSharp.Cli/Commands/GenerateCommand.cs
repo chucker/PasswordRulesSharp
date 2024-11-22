@@ -1,0 +1,44 @@
+using System.ComponentModel;
+
+using Spectre.Console;
+using Spectre.Console.Cli;
+
+using Rule = PasswordRulesSharp.Rules.Rule;
+
+namespace PasswordRulesSharp.Cli.Commands;
+
+public class GenerateCommand : Command<GenerateCommand.Settings>
+{
+    public class Settings : CommandSettings
+    {
+        [CommandArgument(0, "<Rule>")]
+        [Description("Specifies the password rule to apply, in Apple's syntax.")]
+        public string Rule { get; set; } = "";
+
+        [CommandOption("--count")]
+        [Description("Specifies how many passwords to generate")]
+        [DefaultValue(5)]
+        public int Count { get; set; }
+    }
+
+    public override int Execute(CommandContext context, Settings settings)
+    {
+        var rule = Rule.FromString(settings.Rule);
+        var generator = new Generator.Generator(rule);
+
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[underline]Generated passwords:[/]");
+        for (int i = 0; i < settings.Count; i++)
+            AnsiConsole.MarkupLine($"  {generator.GeneratePassword()}".EscapeMarkup());
+
+        return 0;
+    }
+
+    public override ValidationResult Validate(CommandContext context, Settings settings)
+    {
+        if (settings.Count <= 0)
+            return ValidationResult.Error("Please provide a count ≥ 0");
+
+        return base.Validate(context, settings);
+    }
+}
