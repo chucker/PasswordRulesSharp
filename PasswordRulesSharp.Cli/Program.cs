@@ -9,8 +9,8 @@ app.Configure(config =>
     config.AddCommand<GenerateCommand>("generate")
         .WithAlias("gen")
         .WithDescription("Generates a bunch of passwords based on a rule.")
-        .WithExample("generate", "--rule=\"minlength: 32\"")
-        .WithExample("generate", "--rule=\"minlength: 20; required: lower; required: upper; required: digit; required: [-];\"");
+        .WithExample("generate", "--count=10 \"minlength: 32\"")
+        .WithExample("generate", "\"minlength: 20; required: lower; required: upper; required: digit; required: [-];\"");
 
 #if DEBUG
     config.PropagateExceptions();

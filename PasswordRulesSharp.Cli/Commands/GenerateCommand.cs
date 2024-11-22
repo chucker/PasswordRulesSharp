@@ -12,10 +12,12 @@ public class GenerateCommand : Command<GenerateCommand.Settings>
 {
     public class Settings : CommandSettings
     {
-        [CommandOption("--rule")]
+        [CommandArgument(0, "[Rule]")]
+        [Description("Specifies the password rule to apply, in Apple's syntax.")]
         public string Rule { get; set; } = "";
 
         [CommandOption("--count")]
+        [Description("Specifies how many passwords to generate")]
         [DefaultValue(5)]
         public int Count { get; set; }
     }
