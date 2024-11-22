@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 
 using Spectre.Console;
@@ -12,7 +11,7 @@ public class GenerateCommand : Command<GenerateCommand.Settings>
 {
     public class Settings : CommandSettings
     {
-        [CommandArgument(0, "[Rule]")]
+        [CommandArgument(0, "<Rule>")]
         [Description("Specifies the password rule to apply, in Apple's syntax.")]
         public string Rule { get; set; } = "";
 
@@ -39,9 +38,6 @@ public class GenerateCommand : Command<GenerateCommand.Settings>
     {
         if (settings.Count <= 0)
             return ValidationResult.Error("Please provide a count ≥ 0");
-
-        if (string.IsNullOrWhiteSpace(settings.Rule))
-            return ValidationResult.Error("Please provide a valid rule, e.g. `--rule=\"minlength: 20; required: lower; required: upper; required: digit; required: [-];\"`.");
 
         return base.Validate(context, settings);
     }
